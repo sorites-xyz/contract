@@ -37,10 +37,10 @@ struct Speculation {
 
 contract Sorites is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
     //// USDC
-    address private constant usdcAddress = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913;
+    // Hard coded official USDC contract: https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+    IERC20 private constant contractForUSDC = IERC20(0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913);
 
     function moveUSDC(address from, address to, uint256 amount) private {
-        IERC20 contractForUSDC = IERC20(usdcAddress);
         bool success = contractForUSDC.transferFrom(from, to, amount);
 
         require(success, "USDC transfer failed");
