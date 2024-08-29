@@ -49,39 +49,10 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"createFuture(uint80,uint8,uint80,uint64)": "97a857e6",
 			"isFuturesProvider()": "3021fa09"
 		}
 	},
 	"abi": [
-		{
-			"inputs": [
-				{
-					"internalType": "uint80",
-					"name": "speculationId",
-					"type": "uint80"
-				},
-				{
-					"internalType": "uint8",
-					"name": "metric",
-					"type": "uint8"
-				},
-				{
-					"internalType": "uint80",
-					"name": "value",
-					"type": "uint80"
-				},
-				{
-					"internalType": "uint64",
-					"name": "endTime",
-					"type": "uint64"
-				}
-			],
-			"name": "createFuture",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
 		{
 			"inputs": [],
 			"name": "isFuturesProvider",

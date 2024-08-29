@@ -49,7 +49,7 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"createSpeculation(address,uint64,uint80,bool)": "23bfaefa",
+			"createMarketEvent(address,uint64,uint80,bool)": "79addc39",
 			"specifyOutcome(uint80,bool)": "d68b975c"
 		}
 	},
@@ -73,11 +73,11 @@
 				},
 				{
 					"internalType": "bool",
-					"name": "speculatingOnYes",
+					"name": "bankingOnYes",
 					"type": "bool"
 				}
 			],
-			"name": "createSpeculation",
+			"name": "createMarketEvent",
 			"outputs": [
 				{
 					"internalType": "uint80",

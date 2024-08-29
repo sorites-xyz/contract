@@ -8,6 +8,40 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "minter",
+						"type": "address"
+					},
+					{
+						"internalType": "uint64",
+						"name": "endTime",
+						"type": "uint64"
+					},
+					{
+						"internalType": "uint80",
+						"name": "usdcToDeposit",
+						"type": "uint80"
+					},
+					{
+						"internalType": "bool",
+						"name": "bankingOnYes",
+						"type": "bool"
+					}
+				],
+				"name": "createMarketEvent",
+				"outputs": [
+					{
+						"internalType": "uint80",
+						"name": "",
+						"type": "uint80"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint80",
 						"name": "speculationId",
 						"type": "uint80"
@@ -32,10 +66,14 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
+				"createMarketEvent(address,uint64,uint80,bool)": {
+					"notice": "Creates a new market event on behalf of the {minter}"
+				},
 				"specifyOutcome(uint80,bool)": {
-					"notice": "This method is to be called by a Futures contract on the Sorites contract"
+					"notice": "Ends a Market Event with a particular outcome"
 				}
 			},
+			"notice": "These methods are to be called by a Futures contract on the Sorites contract",
 			"version": 1
 		}
 	},
@@ -56,11 +94,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesConsumer.sol": {
-			"keccak256": "0x42693ee3d59e97d2a0259301606f458b502ad43b6e3a39ca29a2168b8d830a5e",
+			"keccak256": "0xdb2c5d4d31f248302dee05d3a0ed2edcff4a336cd4e6d8d3aeef8fdd7920fea5",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://5641eca9cb292be3211e5ae2a1f987a418b92dc1cbc5304f78af70479f504f7f",
-				"dweb:/ipfs/Qmd4i1uCA9add6QmxpaQyM9F3xJ8GPPdyLaX3gGN6Eoxrb"
+				"bzz-raw://94dd474cec85d9f0090ae52a5cdd2d4a5f7798cdb26800a9f4b52f760845cf38",
+				"dweb:/ipfs/Qme4eYQ4qWxY4Ca7j8q1AxEoJG18R4KVwdVYTBmgNxJci2"
 			]
 		}
 	},

@@ -1,5 +1,5 @@
 {
-	"id": "109dff0880b7c0d3a385d910bcd85b69",
+	"id": "09c6cd028e1746e790789f6b981b14c4",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.25",
 	"solcLongVersion": "0.8.25+commit.b61c2a91",
@@ -7,7 +7,7 @@
 		"language": "Solidity",
 		"sources": {
 			"interfaces/IFuturesProvider.sol": {
-				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.25;\n\nuint8 constant METRIC_PRICE_LESS_THAN = 1;\nuint8 constant METRIC_PRICE_MORE_THAN_OR_EQUAL_TO = 2;\n\ninterface IFuturesProvider {\n    function isFuturesProvider() external returns (bool);\n\n    // function createFuture(\n    //     uint80 speculationId,\n    //     uint8 metric,\n    //     uint80 value,\n    //     uint64 endTime\n    // ) external;\n}"
+				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.25;\n\nuint8 constant METRIC_PRICE_LESS_THAN = 1;\nuint8 constant METRIC_PRICE_MORE_THAN_OR_EQUAL_TO = 2;\n\ninterface IFuturesProvider {\n    function isFuturesProvider() external returns (bool);\n\n}"
 			}
 		},
 		"settings": {
@@ -87,7 +87,7 @@
 							"isFuturesProvider()": "3021fa09"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"isFuturesProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"interfaces/IFuturesProvider.sol\":\"IFuturesProvider\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"interfaces/IFuturesProvider.sol\":{\"keccak256\":\"0x71afc27f0782bc853a4393a6df127f0c819d379eba673c86dcc50c41b48b7197\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://c8a76350dacdffeaf4ffe827c2148de0f1d3178a70184d3afaf752c7d57eb2bc\",\"dweb:/ipfs/QmWWjKxJLYpyMw4QTUkU6WZPsyo7UWHuJgC7TUgQdrYtGU\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"isFuturesProvider\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"interfaces/IFuturesProvider.sol\":\"IFuturesProvider\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"interfaces/IFuturesProvider.sol\":{\"keccak256\":\"0xa9181e66f22f40f11e12b1dcc2d80104dcbdbcca4196b3f72d7e57c269881908\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://c1f391ac8b7c5fe75022442e4ca83e63b35a2dcffe497adb89c12b4d0e0316fd\",\"dweb:/ipfs/QmbstaFNSAMipbd6DDYJNoEDMn6oNNDaBUoFUeWr3CjYAe\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [],
 						"types": null
@@ -287,12 +287,12 @@
 								}
 							],
 							"scope": 14,
-							"src": "163:247:0",
+							"src": "163:89:0",
 							"usedErrors": [],
 							"usedEvents": []
 						}
 					],
-					"src": "39:371:0"
+					"src": "39:213:0"
 				},
 				"id": 0
 			}

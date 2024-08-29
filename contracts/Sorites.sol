@@ -3,8 +3,8 @@ pragma solidity 0.8.25;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+
 import "../interfaces/IERC20.sol";
-import "../interfaces/IFuturesProvider.sol";
 import "../interfaces/IFuturesConsumer.sol";
 
 enum SpeculationStatus { InProgress, YesWon, NoWon }
@@ -22,7 +22,6 @@ struct Speculation {
     uint80 usdcWonPerWinningToken;
 
     address futuresContractAddress;
-    bool futuresOutcomeRequested;
 }
 
 contract Sorites is ERC1155, Ownable, IFuturesConsumer {
@@ -39,26 +38,22 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     //// Futures Contract Interface
     mapping(address => bool) public futuresContractAddressWhitelist;
 
-    // Add a Futures Contract usable for new speculations
+    // Authorise a Futures Contract to create and resolve Market Events
     function addFuturesContract(address futuresAddress) public onlyOwner {
-        // Verify as a valid IFuturesProvider
-        IFuturesProvider provider = IFuturesProvider(futuresAddress);
-        require(provider.isFuturesProvider(), "Invalid");
-
         futuresContractAddressWhitelist[futuresAddress] = true;
     }
 
-    // Stop people from using a Futures Contract for new speculations
-    // Existing speculations will still have the contract
+    // Stop people from using a Futures Contract for new Market Events
+    // Existing Market Events will still have the contract
     function removeFuturesContract(address futuresAddress) public onlyOwner {
         delete futuresContractAddressWhitelist[futuresAddress];
     }
 
-    //// Speculations
+    //// Market Events
     mapping(uint80 => Speculation) private speculations;
     uint80 private nextSpeculationId;
     
-    event Speculated(address who, uint80 speculationId, uint256 amountInUSDC, SpeculationTokenType tokenType);
+    event MarketEventResolved(address who, uint80 speculationId, uint256 amountInUSDC, bool tokenTypeYes);
     event CashedOut(address who, uint80 speculationId, uint256 amountInUSDC);
 
     function getSpeculation(uint80 speculationId) private view returns (Speculation storage) {
@@ -102,7 +97,7 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         emit CashedOut(msg.sender, speculationId, winningAmountInUSDC);
     }
 
-    function calculateMintAmountPerUSDC(Speculation storage speculation, SpeculationTokenType tokenType) private view returns (uint80) {
+    function calculateMintAmountPerUSDC(Speculation storage speculation, bool tokenTypeYes) private view returns (uint80) {
         uint64 totalDuration = speculation.endTime - speculation.startTime;
         uint64 timeElapsedSoFar = uint64(block.timestamp) - speculation.startTime;
         uint64 elapsedTimeProportion = timeElapsedSoFar / totalDuration;
@@ -112,13 +107,13 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
             ? 8 * (1 - elapsedTimeProportion) ** 4
             : 1 - 8 * elapsedTimeProportion ** 4;
 
-        uint256 aTokenTotal = tokenType == SpeculationTokenType.Yes
+        uint256 aTokenTotal = tokenTypeYes
             ? speculation.totalYesTokens
             : speculation.totalNoTokens;
 
-        uint256 bTokenTotal = tokenType == SpeculationTokenType.No
-            ? speculation.totalYesTokens
-            : speculation.totalNoTokens;
+        uint256 bTokenTotal = tokenTypeYes
+            ? speculation.totalNoTokens
+            : speculation.totalYesTokens;
 
         require(bTokenTotal <= aTokenTotal, "Invalid state");
 
@@ -141,44 +136,55 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         }
     }
 
-    function _mintSpeculationTokens(uint80 speculationId, uint80 usdcToDeposit, SpeculationTokenType tokenType) private {
+    function _mintMarketEventTokens(address minter, uint80 speculationId, uint80 usdcToDeposit, bool tokenTypeYes) private {
         Speculation storage speculation = getSpeculation(speculationId);
     
         // Assert block time
         require(speculation.endTime > block.timestamp, "Speculation is over");
 
         // Deposit USDC
-        moveUSDC(msg.sender, address(this), usdcToDeposit);
+        moveUSDC(minter, address(this), usdcToDeposit);
 
         // Calculate mint rate
-        uint80 mintAmountPerUSDC = calculateMintAmountPerUSDC(speculation, tokenType);
+        uint80 mintAmountPerUSDC = calculateMintAmountPerUSDC(speculation, tokenTypeYes);
         uint80 tokensToMint = mintAmountPerUSDC * usdcToDeposit;
 
         // Mint tokens
-        uint256 speculationTokenId = tokenType == SpeculationTokenType.Yes
+        uint256 speculationTokenId = tokenTypeYes
             ? getYesTokenId(speculationId)
             : getNoTokenId(speculationId);
 
-        _mint(msg.sender, speculationTokenId, tokensToMint, new bytes(0));
+        _mint(minter, speculationTokenId, tokensToMint, new bytes(0));
 
         // Update speculation (TODO: check that this stores the updates)
         speculation.totalUSDC += usdcToDeposit;
 
-        if (tokenType == SpeculationTokenType.Yes) {
+        if (tokenTypeYes) {
             speculation.totalYesTokens += tokensToMint;
         } else {
             speculation.totalNoTokens += tokensToMint;
         }
 
         // Tell the world
-        emit Speculated(msg.sender, speculationId, usdcToDeposit, tokenType);
+        emit MarketEventResolved(minter, speculationId, usdcToDeposit, tokenTypeYes);
     }
 
-    function mintSpeculationTokens(uint80 speculationId, uint80 usdcToDeposit, SpeculationTokenType tokenType) public {
-        _mintSpeculationTokens(speculationId, usdcToDeposit, tokenType);
+    function mintMarketEventTokens(uint80 speculationId, uint80 usdcToDeposit, bool tokenTypeYes) public {
+        _mintMarketEventTokens(msg.sender, speculationId, usdcToDeposit, tokenTypeYes);
     }
 
-    function createSpeculation(address futuresContractAddress, uint64 endTime, uint80 usdcToDeposit, SpeculationTokenType tokenType) public {
+    /// IFuturesConsumer
+    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) public {
+        Speculation storage speculation = getSpeculation(speculationId);
+
+        require(speculation.futuresContractAddress == msg.sender, "Unauthorised");
+        require(speculation.status == SpeculationStatus.InProgress, "Speculation not in progress");
+        require(speculation.endTime <= block.timestamp, "Speculation not over");
+
+        speculation.status = outcomeWasMet ? SpeculationStatus.YesWon : SpeculationStatus.NoWon;
+    }
+
+    function createMarketEvent(address minter, uint64 endTime, uint80 usdcToDeposit, bool tokenTypeYes) external returns (uint80) {
         // Require minimum deposit to create a speculation
         require(usdcToDeposit >= 25 * 10e6, "Not enough USDC");
 
@@ -186,7 +192,7 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         require(endTime >= block.timestamp, "Cannot end in past");
 
         // Only allow whitelisted Futures Contracts
-        require(futuresContractAddressWhitelist[futuresContractAddress], "Not whitelisted");
+        require(futuresContractAddressWhitelist[msg.sender], "Not whitelisted");
 
         uint80 speculationId = nextSpeculationId;
         ++nextSpeculationId;
@@ -202,23 +208,13 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
             status: SpeculationStatus.InProgress,
             usdcWonPerWinningToken: 0,
 
-            futuresContractAddress: futuresContractAddress,
-            futuresOutcomeRequested: false
+            futuresContractAddress: msg.sender
         });
 
         // Mint the tokens
-        _mintSpeculationTokens(speculationId, usdcToDeposit, tokenType);
-    }
+        _mintMarketEventTokens(minter, speculationId, usdcToDeposit, tokenTypeYes);
 
-    /// IFuturesConsumer
-    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) public {
-        Speculation storage speculation = getSpeculation(speculationId);
-
-        require(speculation.futuresContractAddress == msg.sender, "Unauthorised");
-        require(speculation.status == SpeculationStatus.InProgress, "Speculation not in progress");
-        require(speculation.endTime <= block.timestamp, "Speculation not over");
-
-        speculation.status = outcomeWasMet ? SpeculationStatus.YesWon : SpeculationStatus.NoWon;
+        return speculationId;
     }
 
     //// Internal

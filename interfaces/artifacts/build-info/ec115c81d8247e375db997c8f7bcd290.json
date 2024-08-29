@@ -1,5 +1,5 @@
 {
-	"id": "ae626e7e7b934911e45e76d3655a2321",
+	"id": "ec115c81d8247e375db997c8f7bcd290",
 	"_format": "hh-sol-build-info-1",
 	"solcVersion": "0.8.25",
 	"solcLongVersion": "0.8.25+commit.b61c2a91",
@@ -7,7 +7,7 @@
 		"language": "Solidity",
 		"sources": {
 			"interfaces/IFuturesConsumer.sol": {
-				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.25;\n\ninterface IFuturesConsumer {\n    /**\n     * This method is to be called by a Futures contract on the Sorites contract\n     */\n    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) external;\n\n    /**\n     * This method is to be called by a Futures contract on the Sorites contract to create a new Speculation\n     */\n    function createSpeculation(address minter, uint64 endTime, uint80 usdcToDeposit, bool speculatingOnYes) external returns (uint80);\n}"
+				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.25;\n\n/**\n * These methods are to be called by a Futures contract on the Sorites contract\n */\ninterface IFuturesConsumer {\n    /**\n     * Ends a Market Event with a particular outcome\n     */\n    function specifyOutcome(uint80 marketEventId, bool outcomeWasMet) external;\n\n    /**\n     * Creates a new market event on behalf of the {minter}\n     */\n    function createMarketEvent(address minter, uint64 endTime, uint80 usdcToDeposit, bool bankingOnYes) external returns (uint80);\n}"
 			}
 		},
 		"settings": {
@@ -62,11 +62,11 @@
 								},
 								{
 									"internalType": "bool",
-									"name": "speculatingOnYes",
+									"name": "bankingOnYes",
 									"type": "bool"
 								}
 							],
-							"name": "createSpeculation",
+							"name": "createMarketEvent",
 							"outputs": [
 								{
 									"internalType": "uint80",
@@ -81,7 +81,7 @@
 							"inputs": [
 								{
 									"internalType": "uint80",
-									"name": "speculationId",
+									"name": "marketEventId",
 									"type": "uint80"
 								},
 								{
@@ -123,11 +123,11 @@
 						"gasEstimates": null,
 						"legacyAssembly": null,
 						"methodIdentifiers": {
-							"createSpeculation(address,uint64,uint80,bool)": "23bfaefa",
+							"createMarketEvent(address,uint64,uint80,bool)": "79addc39",
 							"specifyOutcome(uint80,bool)": "d68b975c"
 						}
 					},
-					"metadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"minter\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"endTime\",\"type\":\"uint64\"},{\"internalType\":\"uint80\",\"name\":\"usdcToDeposit\",\"type\":\"uint80\"},{\"internalType\":\"bool\",\"name\":\"speculatingOnYes\",\"type\":\"bool\"}],\"name\":\"createSpeculation\",\"outputs\":[{\"internalType\":\"uint80\",\"name\":\"\",\"type\":\"uint80\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint80\",\"name\":\"speculationId\",\"type\":\"uint80\"},{\"internalType\":\"bool\",\"name\":\"outcomeWasMet\",\"type\":\"bool\"}],\"name\":\"specifyOutcome\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createSpeculation(address,uint64,uint80,bool)\":{\"notice\":\"This method is to be called by a Futures contract on the Sorites contract to create a new Speculation\"},\"specifyOutcome(uint80,bool)\":{\"notice\":\"This method is to be called by a Futures contract on the Sorites contract\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"interfaces/IFuturesConsumer.sol\":\"IFuturesConsumer\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"interfaces/IFuturesConsumer.sol\":{\"keccak256\":\"0xd2530ffb8c87a6fe53dc87ebbccbdf473ac43e61c9c6a870a83f7a0d999ea371\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://02df93497c78af32bb89d63ddfc970846a5197e8e8eb41cbd7080a2c8d5fff71\",\"dweb:/ipfs/QmRWuMVZJEgnocsV2s2KMzo3A4nJyYPMJvVMbTuqgzt4K7\"]}},\"version\":1}",
+					"metadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"minter\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"endTime\",\"type\":\"uint64\"},{\"internalType\":\"uint80\",\"name\":\"usdcToDeposit\",\"type\":\"uint80\"},{\"internalType\":\"bool\",\"name\":\"bankingOnYes\",\"type\":\"bool\"}],\"name\":\"createMarketEvent\",\"outputs\":[{\"internalType\":\"uint80\",\"name\":\"\",\"type\":\"uint80\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint80\",\"name\":\"marketEventId\",\"type\":\"uint80\"},{\"internalType\":\"bool\",\"name\":\"outcomeWasMet\",\"type\":\"bool\"}],\"name\":\"specifyOutcome\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createMarketEvent(address,uint64,uint80,bool)\":{\"notice\":\"Creates a new market event on behalf of the {minter}\"},\"specifyOutcome(uint80,bool)\":{\"notice\":\"Ends a Market Event with a particular outcome\"}},\"notice\":\"These methods are to be called by a Futures contract on the Sorites contract\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"interfaces/IFuturesConsumer.sol\":\"IFuturesConsumer\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"interfaces/IFuturesConsumer.sol\":{\"keccak256\":\"0xe73e9aa9bfa1a4ff45e146647961705169805980fa0966918c01de9cd67cd80f\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://ba45d4135311c920ec37baa2d0b612dc8dce811a1550f9b2f22ccd7c2cb4737b\",\"dweb:/ipfs/QmVP7Am374U4jorAcTZyWzFAF5Qm1hLNZzswkWABnhYVXP\"]}},\"version\":1}",
 					"storageLayout": {
 						"storage": [],
 						"types": null
@@ -135,13 +135,14 @@
 					"userdoc": {
 						"kind": "user",
 						"methods": {
-							"createSpeculation(address,uint64,uint80,bool)": {
-								"notice": "This method is to be called by a Futures contract on the Sorites contract to create a new Speculation"
+							"createMarketEvent(address,uint64,uint80,bool)": {
+								"notice": "Creates a new market event on behalf of the {minter}"
 							},
 							"specifyOutcome(uint80,bool)": {
-								"notice": "This method is to be called by a Futures contract on the Sorites contract"
+								"notice": "Ends a Market Event with a particular outcome"
 							}
 						},
+						"notice": "These methods are to be called by a Futures contract on the Sorites contract",
 						"version": 1
 					}
 				}
@@ -153,10 +154,10 @@
 					"absolutePath": "interfaces/IFuturesConsumer.sol",
 					"exportedSymbols": {
 						"IFuturesConsumer": [
-							24
+							25
 						]
 					},
-					"id": 25,
+					"id": 26,
 					"license": "UNLICENSED",
 					"nodeType": "SourceUnit",
 					"nodes": [
@@ -176,43 +177,49 @@
 							"canonicalName": "IFuturesConsumer",
 							"contractDependencies": [],
 							"contractKind": "interface",
+							"documentation": {
+								"id": 2,
+								"nodeType": "StructuredDocumentation",
+								"src": "64:87:0",
+								"text": " These methods are to be called by a Futures contract on the Sorites contract"
+							},
 							"fullyImplemented": false,
-							"id": 24,
+							"id": 25,
 							"linearizedBaseContracts": [
-								24
+								25
 							],
 							"name": "IFuturesConsumer",
-							"nameLocation": "74:16:0",
+							"nameLocation": "162:16:0",
 							"nodeType": "ContractDefinition",
 							"nodes": [
 								{
 									"documentation": {
-										"id": 2,
+										"id": 3,
 										"nodeType": "StructuredDocumentation",
-										"src": "97:92:0",
-										"text": " This method is to be called by a Futures contract on the Sorites contract"
+										"src": "185:64:0",
+										"text": " Ends a Market Event with a particular outcome"
 									},
 									"functionSelector": "d68b975c",
-									"id": 9,
+									"id": 10,
 									"implemented": false,
 									"kind": "function",
 									"modifiers": [],
 									"name": "specifyOutcome",
-									"nameLocation": "203:14:0",
+									"nameLocation": "263:14:0",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
-										"id": 7,
+										"id": 8,
 										"nodeType": "ParameterList",
 										"parameters": [
 											{
 												"constant": false,
-												"id": 4,
+												"id": 5,
 												"mutability": "mutable",
-												"name": "speculationId",
-												"nameLocation": "225:13:0",
+												"name": "marketEventId",
+												"nameLocation": "285:13:0",
 												"nodeType": "VariableDeclaration",
-												"scope": 9,
-												"src": "218:20:0",
+												"scope": 10,
+												"src": "278:20:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -220,10 +227,10 @@
 													"typeString": "uint80"
 												},
 												"typeName": {
-													"id": 3,
+													"id": 4,
 													"name": "uint80",
 													"nodeType": "ElementaryTypeName",
-													"src": "218:6:0",
+													"src": "278:6:0",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint80",
 														"typeString": "uint80"
@@ -233,13 +240,13 @@
 											},
 											{
 												"constant": false,
-												"id": 6,
+												"id": 7,
 												"mutability": "mutable",
 												"name": "outcomeWasMet",
-												"nameLocation": "245:13:0",
+												"nameLocation": "305:13:0",
 												"nodeType": "VariableDeclaration",
-												"scope": 9,
-												"src": "240:18:0",
+												"scope": 10,
+												"src": "300:18:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -247,10 +254,10 @@
 													"typeString": "bool"
 												},
 												"typeName": {
-													"id": 5,
+													"id": 6,
 													"name": "bool",
 													"nodeType": "ElementaryTypeName",
-													"src": "240:4:0",
+													"src": "300:4:0",
 													"typeDescriptions": {
 														"typeIdentifier": "t_bool",
 														"typeString": "bool"
@@ -259,48 +266,48 @@
 												"visibility": "internal"
 											}
 										],
-										"src": "217:42:0"
+										"src": "277:42:0"
 									},
 									"returnParameters": {
-										"id": 8,
+										"id": 9,
 										"nodeType": "ParameterList",
 										"parameters": [],
-										"src": "268:0:0"
+										"src": "328:0:0"
 									},
-									"scope": 24,
-									"src": "194:75:0",
+									"scope": 25,
+									"src": "254:75:0",
 									"stateMutability": "nonpayable",
 									"virtual": false,
 									"visibility": "external"
 								},
 								{
 									"documentation": {
-										"id": 10,
+										"id": 11,
 										"nodeType": "StructuredDocumentation",
-										"src": "275:120:0",
-										"text": " This method is to be called by a Futures contract on the Sorites contract to create a new Speculation"
+										"src": "335:71:0",
+										"text": " Creates a new market event on behalf of the {minter}"
 									},
-									"functionSelector": "23bfaefa",
-									"id": 23,
+									"functionSelector": "79addc39",
+									"id": 24,
 									"implemented": false,
 									"kind": "function",
 									"modifiers": [],
-									"name": "createSpeculation",
-									"nameLocation": "409:17:0",
+									"name": "createMarketEvent",
+									"nameLocation": "420:17:0",
 									"nodeType": "FunctionDefinition",
 									"parameters": {
-										"id": 19,
+										"id": 20,
 										"nodeType": "ParameterList",
 										"parameters": [
 											{
 												"constant": false,
-												"id": 12,
+												"id": 13,
 												"mutability": "mutable",
 												"name": "minter",
-												"nameLocation": "435:6:0",
+												"nameLocation": "446:6:0",
 												"nodeType": "VariableDeclaration",
-												"scope": 23,
-												"src": "427:14:0",
+												"scope": 24,
+												"src": "438:14:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -308,10 +315,10 @@
 													"typeString": "address"
 												},
 												"typeName": {
-													"id": 11,
+													"id": 12,
 													"name": "address",
 													"nodeType": "ElementaryTypeName",
-													"src": "427:7:0",
+													"src": "438:7:0",
 													"stateMutability": "nonpayable",
 													"typeDescriptions": {
 														"typeIdentifier": "t_address",
@@ -322,13 +329,13 @@
 											},
 											{
 												"constant": false,
-												"id": 14,
+												"id": 15,
 												"mutability": "mutable",
 												"name": "endTime",
-												"nameLocation": "450:7:0",
+												"nameLocation": "461:7:0",
 												"nodeType": "VariableDeclaration",
-												"scope": 23,
-												"src": "443:14:0",
+												"scope": 24,
+												"src": "454:14:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -336,10 +343,10 @@
 													"typeString": "uint64"
 												},
 												"typeName": {
-													"id": 13,
+													"id": 14,
 													"name": "uint64",
 													"nodeType": "ElementaryTypeName",
-													"src": "443:6:0",
+													"src": "454:6:0",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint64",
 														"typeString": "uint64"
@@ -349,13 +356,13 @@
 											},
 											{
 												"constant": false,
-												"id": 16,
+												"id": 17,
 												"mutability": "mutable",
 												"name": "usdcToDeposit",
-												"nameLocation": "466:13:0",
+												"nameLocation": "477:13:0",
 												"nodeType": "VariableDeclaration",
-												"scope": 23,
-												"src": "459:20:0",
+												"scope": 24,
+												"src": "470:20:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -363,10 +370,10 @@
 													"typeString": "uint80"
 												},
 												"typeName": {
-													"id": 15,
+													"id": 16,
 													"name": "uint80",
 													"nodeType": "ElementaryTypeName",
-													"src": "459:6:0",
+													"src": "470:6:0",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint80",
 														"typeString": "uint80"
@@ -376,13 +383,13 @@
 											},
 											{
 												"constant": false,
-												"id": 18,
+												"id": 19,
 												"mutability": "mutable",
-												"name": "speculatingOnYes",
-												"nameLocation": "486:16:0",
+												"name": "bankingOnYes",
+												"nameLocation": "497:12:0",
 												"nodeType": "VariableDeclaration",
-												"scope": 23,
-												"src": "481:21:0",
+												"scope": 24,
+												"src": "492:17:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -390,10 +397,10 @@
 													"typeString": "bool"
 												},
 												"typeName": {
-													"id": 17,
+													"id": 18,
 													"name": "bool",
 													"nodeType": "ElementaryTypeName",
-													"src": "481:4:0",
+													"src": "492:4:0",
 													"typeDescriptions": {
 														"typeIdentifier": "t_bool",
 														"typeString": "bool"
@@ -402,21 +409,21 @@
 												"visibility": "internal"
 											}
 										],
-										"src": "426:77:0"
+										"src": "437:73:0"
 									},
 									"returnParameters": {
-										"id": 22,
+										"id": 23,
 										"nodeType": "ParameterList",
 										"parameters": [
 											{
 												"constant": false,
-												"id": 21,
+												"id": 22,
 												"mutability": "mutable",
 												"name": "",
 												"nameLocation": "-1:-1:-1",
 												"nodeType": "VariableDeclaration",
-												"scope": 23,
-												"src": "522:6:0",
+												"scope": 24,
+												"src": "529:6:0",
 												"stateVariable": false,
 												"storageLocation": "default",
 												"typeDescriptions": {
@@ -424,10 +431,10 @@
 													"typeString": "uint80"
 												},
 												"typeName": {
-													"id": 20,
+													"id": 21,
 													"name": "uint80",
 													"nodeType": "ElementaryTypeName",
-													"src": "522:6:0",
+													"src": "529:6:0",
 													"typeDescriptions": {
 														"typeIdentifier": "t_uint80",
 														"typeString": "uint80"
@@ -436,22 +443,22 @@
 												"visibility": "internal"
 											}
 										],
-										"src": "521:8:0"
+										"src": "528:8:0"
 									},
-									"scope": 24,
-									"src": "400:130:0",
+									"scope": 25,
+									"src": "411:126:0",
 									"stateMutability": "nonpayable",
 									"virtual": false,
 									"visibility": "external"
 								}
 							],
-							"scope": 25,
-							"src": "64:468:0",
+							"scope": 26,
+							"src": "152:387:0",
 							"usedErrors": [],
 							"usedEvents": []
 						}
 					],
-					"src": "39:493:0"
+					"src": "39:500:0"
 				},
 				"id": 0
 			}

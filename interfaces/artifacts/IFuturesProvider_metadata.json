@@ -6,34 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [
-					{
-						"internalType": "uint80",
-						"name": "speculationId",
-						"type": "uint80"
-					},
-					{
-						"internalType": "uint8",
-						"name": "metric",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint80",
-						"name": "value",
-						"type": "uint80"
-					},
-					{
-						"internalType": "uint64",
-						"name": "endTime",
-						"type": "uint64"
-					}
-				],
-				"name": "createFuture",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
 				"name": "isFuturesProvider",
 				"outputs": [
@@ -75,11 +47,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesProvider.sol": {
-			"keccak256": "0x32d8582f8688726bb7f04f95be37f230621ddca750a34e0ae1d7df51d37a8030",
+			"keccak256": "0xa9181e66f22f40f11e12b1dcc2d80104dcbdbcca4196b3f72d7e57c269881908",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://cba8077f82c1006278e6bb180dbb161f6c85b6c20bffff8984ae685fd1b0ab33",
-				"dweb:/ipfs/QmUCEnR7DYsaCkheuEPDPsovXbmqSdAHZfUdqLWAVFgSei"
+				"bzz-raw://c1f391ac8b7c5fe75022442e4ca83e63b35a2dcffe497adb89c12b4d0e0316fd",
+				"dweb:/ipfs/QmbstaFNSAMipbd6DDYJNoEDMn6oNNDaBUoFUeWr3CjYAe"
 			]
 		}
 	},

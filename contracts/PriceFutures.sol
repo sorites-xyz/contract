@@ -7,8 +7,10 @@ import { FunctionsRequest } from "@chainlink/contracts@1.2.0/src/v0.8/functions/
 
 import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
-import "../interfaces/IFuturesProvider.sol";
 import "../interfaces/IFuturesConsumer.sol";
+
+uint8 constant METRIC_PRICE_LESS_THAN = 1;
+uint8 constant METRIC_PRICE_MORE_THAN_OR_EQUAL_TO = 2;
 
 struct Future {
     string asset;
@@ -21,10 +23,11 @@ struct Future {
  * This contract resolved Sorites speculations to Yes or No depending
  * on the price of an asset after a specified time.
 **/
-contract SoritesPriceFuturesProvider is IFuturesProvider, ConfirmedOwner {
+contract SoritesPriceFuturesProvider is ConfirmedOwner {
     //// Price Oracles
     // Addresses in https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=2&search=usd
     mapping (string => address) public chainlinkPriceOracles;
+    mapping (string => bool) public supportedAssetsSet;
     string[] public supportedAssets;
 
     function addSupportedAsset(string calldata asset, address oracleAddress) public onlyOwner {
@@ -53,15 +56,23 @@ contract SoritesPriceFuturesProvider is IFuturesProvider, ConfirmedOwner {
     }
 
     function createFuture(
-        uint80 speculationId,
+        string calldata asset,
         uint8 metric,
         uint80 value,
-        uint64 endTime
-    ) external {
+        uint64 endTime,
+        uint80 usdcToDeposit,
+        bool speculatingOnYes
+    ) public returns (uint80) {
         require(msg.sender == consumerAddress, "Unauthorised");
-        require(metric == METRIC_PRICE_LESS_THAN || metric == METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Unsupported");
+        require(metric == METRIC_PRICE_LESS_THAN || metric == METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Bad metric");
+        require(supportedAssetsSet[asset], "Bad asset");
+        require(value >= 1, "Bad value");
 
-        futures[speculationId] = Future("TEMP", metric, value, endTime);
+        uint80 speculationId = consumer.createMarketEvent(msg.sender, endTime, usdcToDeposit, speculatingOnYes);
+
+        futures[speculationId] = Future(asset, metric, value, endTime);
+
+        return speculationId;
     }
 
 
