@@ -6,12 +6,12 @@ pragma solidity 0.8.25;
  */
 interface IFuturesConsumer {
     /**
-     * Ends a Market Event with a particular outcome
-     */
-    function resolveMarketEvent(uint80 marketEventId, bool outcomeWasMet) external;
-
-    /**
      * Creates a new market event on behalf of the {minter}
      */
     function createMarketEvent(address minter, uint64 endTime, uint80 usdcToDeposit, bool bankingOnYes) external returns (uint80);
+
+    /**
+     * Ends a Market Event with a particular outcome
+     */
+    function resolveMarketEvent(uint80 marketEventId, bool outcomeWasMet) external;
 }

@@ -71,6 +71,9 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
 
         uint80 marketEventId = consumer.createMarketEvent(msg.sender, endTime, usdcToDeposit, speculatingOnYes);
 
+        // Assert that the existing future doesn't exist
+        require(!futures[marketEventId].exists, "Existing");
+
         futures[marketEventId] = Future(true, asset, metric, value, endTime);
 
         return marketEventId;

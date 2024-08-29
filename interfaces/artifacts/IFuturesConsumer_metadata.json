@@ -94,11 +94,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesConsumer.sol": {
-			"keccak256": "0x7b091c74ad30faadcde47d85ff1c84360fc83ca08403d01e16952872aa41ecdc",
+			"keccak256": "0x730913bbdf71abcf441adda0c6bf58739b5dff6498f4deae86ced23074abfc19",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://938849f1cbced481a7b0d0772330fd3421f842892833b6bcfcef3610f6ed02d6",
-				"dweb:/ipfs/QmRHvV19VakUShtFtqmoqY1VsYcUYoehjrJpj4jgLMkETX"
+				"bzz-raw://72ca558cee0550f24738079b3eae5889c11d8c5b2a72f81972e4b0f76be440fe",
+				"dweb:/ipfs/QmcBcxgPhZARojuioNJThsmrRYWYtpyRh3FFxRoPafmszB"
 			]
 		}
 	},
