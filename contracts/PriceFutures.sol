@@ -13,6 +13,7 @@ uint8 constant METRIC_PRICE_LESS_THAN = 1;
 uint8 constant METRIC_PRICE_MORE_THAN_OR_EQUAL_TO = 2;
 
 struct Future {
+    bool exists;
     string asset;
     uint8 metric;
     uint80 value;
@@ -70,11 +71,10 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
 
         uint80 marketEventId = consumer.createMarketEvent(msg.sender, endTime, usdcToDeposit, speculatingOnYes);
 
-        futures[marketEventId] = Future(asset, metric, value, endTime);
+        futures[marketEventId] = Future(true, asset, metric, value, endTime);
 
         return marketEventId;
     }
-
 
     /**
      * This function is how the public can request for a marketEvent to be concluded.
@@ -83,8 +83,12 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
      * {aggregatorRoundId} is on/after the endTime but {aggregatorRoundId - 1} is before the endTime.
      * This is to ensure that we use the earliest available round that falls on/after the endTime.
      */
-    function requestFutureOutcome(uint80 marketEventId, uint80 aggregatorRoundId) public {
+    function resolveMarketEvent(uint80 marketEventId, uint80 aggregatorRoundId) public {
         Future storage future = futures[marketEventId];
+
+        // Future must exist
+        require(future.exists, "Bad marketEventId");
+
         address oracleAddress = chainlinkPriceOracles[future.asset];
 
         require(oracleAddress != address(0), "Bad marketEventId");
@@ -107,7 +111,11 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
             revert("Bad metric");
         }
 
-        consumer.specifyOutcome(marketEventId, outcomeWasMet);
+        // Resolve the Market Event
+        consumer.resolveMarketEvent(marketEventId, outcomeWasMet);
+        
+        // Stop storing the Future, so that this method cannot be called again for the {marketEventId}
+        delete futures[marketEventId];
     }
 
     function getRoundPrice(uint80 endTime, uint80 aggregatorRoundId, AggregatorV3Interface aggregator) private view returns (uint80) {

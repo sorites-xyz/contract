@@ -52,7 +52,7 @@
 						"type": "bool"
 					}
 				],
-				"name": "specifyOutcome",
+				"name": "resolveMarketEvent",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -69,7 +69,7 @@
 				"createMarketEvent(address,uint64,uint80,bool)": {
 					"notice": "Creates a new market event on behalf of the {minter}"
 				},
-				"specifyOutcome(uint80,bool)": {
+				"resolveMarketEvent(uint80,bool)": {
 					"notice": "Ends a Market Event with a particular outcome"
 				}
 			},
@@ -94,11 +94,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesConsumer.sol": {
-			"keccak256": "0xe73e9aa9bfa1a4ff45e146647961705169805980fa0966918c01de9cd67cd80f",
+			"keccak256": "0x7b091c74ad30faadcde47d85ff1c84360fc83ca08403d01e16952872aa41ecdc",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://ba45d4135311c920ec37baa2d0b612dc8dce811a1550f9b2f22ccd7c2cb4737b",
-				"dweb:/ipfs/QmVP7Am374U4jorAcTZyWzFAF5Qm1hLNZzswkWABnhYVXP"
+				"bzz-raw://938849f1cbced481a7b0d0772330fd3421f842892833b6bcfcef3610f6ed02d6",
+				"dweb:/ipfs/QmRHvV19VakUShtFtqmoqY1VsYcUYoehjrJpj4jgLMkETX"
 			]
 		}
 	},

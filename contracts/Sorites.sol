@@ -173,7 +173,7 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     }
 
     /// IFuturesConsumer
-    function specifyOutcome(uint80 marketEventId, bool outcomeWasMet) public {
+    function resolveMarketEvent(uint80 marketEventId, bool outcomeWasMet) public {
         MarketEvent storage marketEvent = getMarketEvent(marketEventId);
 
         require(marketEvent.futuresContractAddress == msg.sender, "Unauthorised");

@@ -50,7 +50,7 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"createMarketEvent(address,uint64,uint80,bool)": "79addc39",
-			"specifyOutcome(uint80,bool)": "d68b975c"
+			"resolveMarketEvent(uint80,bool)": "5881f9df"
 		}
 	},
 	"abi": [
@@ -101,7 +101,7 @@
 					"type": "bool"
 				}
 			],
-			"name": "specifyOutcome",
+			"name": "resolveMarketEvent",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
