@@ -49,8 +49,8 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     }
 
     //// Market Events
-    mapping(uint80 => MarketEvent) private marketEvents;
-    uint80 private nextMarketEventId;
+    mapping(uint80 => MarketEvent) public marketEvents;
+    uint80 public nextMarketEventId;
     
     event MarketEventResolved(address who, uint80 marketEventId, uint256 amountInUSDC, bool tokenTypeYes);
     event CashedOut(address who, uint80 marketEventId, uint256 amountInUSDC);
@@ -172,7 +172,7 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         _mintMarketEventTokens(msg.sender, marketEventId, usdcToDeposit, tokenTypeYes);
     }
 
-    /// IFuturesConsumer
+    //// IFuturesConsumer
     function resolveMarketEvent(uint80 marketEventId, bool outcomeWasMet) public {
         MarketEvent storage marketEvent = getMarketEvent(marketEventId);
 

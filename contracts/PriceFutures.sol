@@ -8,6 +8,7 @@ import { FunctionsRequest } from "@chainlink/contracts@1.2.0/src/v0.8/functions/
 import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 import "../interfaces/IFuturesConsumer.sol";
+import "../interfaces/IFuturesProvider.sol";
 
 uint8 constant METRIC_PRICE_LESS_THAN = 1;
 uint8 constant METRIC_PRICE_MORE_THAN_OR_EQUAL_TO = 2;
@@ -24,11 +25,11 @@ struct Future {
  * This contract resolved Sorites marketEvents to Yes or No depending
  * on the price of an asset after a specified time.
 **/
-contract SoritesPriceFuturesProvider is ConfirmedOwner {
+contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
     //// Price Oracles
     // Addresses in https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=2&search=usd
     mapping (string => address) public chainlinkPriceOracles;
-    mapping (string => bool) public supportedAssetsSet;
+    mapping (string => bool) private supportedAssetsSet;
     string[] public supportedAssets;
 
     function addSupportedAsset(string calldata asset, address oracleAddress) public onlyOwner {
@@ -42,21 +43,15 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
         chainlinkPriceOracles[asset] = oracleAddress;
     }
 
-    function getSupportedAssets() public view returns (string[] memory) {
-        return supportedAssets;
-    }
-
     //// FuturesProvider
-    address private consumerAddress;
+    address public consumerAddress;
     IFuturesConsumer private consumer;
     mapping (uint80 => Future) futures;
 
-    function isFuturesProvider() view external returns (bool) {
-        require(msg.sender == consumerAddress, "Unauthorised");
-        return true;
-    }
-
-    function createFuture(
+    /**
+     * This function is to be used by the public to create a Market Event
+     */
+    function createMarketEvent(
         string calldata asset,
         uint8 metric,
         uint80 value,
@@ -64,7 +59,6 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
         uint80 usdcToDeposit,
         bool speculatingOnYes
     ) public returns (uint80) {
-        require(msg.sender == consumerAddress, "Unauthorised");
         require(metric == METRIC_PRICE_LESS_THAN || metric == METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Bad metric");
         require(supportedAssetsSet[asset], "Bad asset");
         require(value >= 1, "Bad value");
@@ -80,7 +74,7 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
     }
 
     /**
-     * This function is how the public can request for a marketEvent to be concluded.
+     * This function is how the public can request for a marketEvent to be resolved.
      *
      * {aggregatorRoundId} is the Round ID from Chainlink, and it must be such that
      * {aggregatorRoundId} is on/after the endTime but {aggregatorRoundId - 1} is before the endTime.
@@ -136,6 +130,24 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
         require(answer < 0, "Bad answer");
 
         return uint80(uint256(answer));
+    }
+
+    //// Public info methods
+    function getLabel() public pure returns (string memory) {
+        return "Price on a future day";
+    }
+
+    function getSupportedAssets() public view returns (string[] memory) {
+        return supportedAssets;
+    }
+
+    function getSupportedMetrics() public pure returns (FuturesProviderSupportedMetric[] memory) {
+        FuturesProviderSupportedMetric[] memory supportedMetricsValues;
+    
+        supportedMetricsValues[0] = FuturesProviderSupportedMetric(METRIC_PRICE_LESS_THAN, "Price is less than");
+        supportedMetricsValues[1] = FuturesProviderSupportedMetric(METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Price is more than or equal to");
+    
+        return supportedMetricsValues;
     }
 
     //// Internal

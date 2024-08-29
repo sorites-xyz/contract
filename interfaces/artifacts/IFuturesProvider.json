@@ -49,18 +49,58 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
-			"isFuturesProvider()": "3021fa09"
+			"getLabel()": "9554c124",
+			"getSupportedAssets()": "e5406dbf",
+			"getSupportedMetrics()": "236126b2"
 		}
 	},
 	"abi": [
 		{
 			"inputs": [],
-			"name": "isFuturesProvider",
+			"name": "getLabel",
 			"outputs": [
 				{
-					"internalType": "bool",
+					"internalType": "string",
 					"name": "",
-					"type": "bool"
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getSupportedAssets",
+			"outputs": [
+				{
+					"internalType": "string[]",
+					"name": "",
+					"type": "string[]"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getSupportedMetrics",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "uint8",
+							"name": "metricId",
+							"type": "uint8"
+						},
+						{
+							"internalType": "string",
+							"name": "name",
+							"type": "string"
+						}
+					],
+					"internalType": "struct FuturesProviderSupportedMetric[]",
+					"name": "",
+					"type": "tuple[]"
 				}
 			],
 			"stateMutability": "nonpayable",

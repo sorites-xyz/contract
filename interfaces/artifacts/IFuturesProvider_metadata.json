@@ -7,12 +7,50 @@
 		"abi": [
 			{
 				"inputs": [],
-				"name": "isFuturesProvider",
+				"name": "getLabel",
 				"outputs": [
 					{
-						"internalType": "bool",
+						"internalType": "string",
 						"name": "",
-						"type": "bool"
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getSupportedAssets",
+				"outputs": [
+					{
+						"internalType": "string[]",
+						"name": "",
+						"type": "string[]"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getSupportedMetrics",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "metricId",
+								"type": "uint8"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							}
+						],
+						"internalType": "struct FuturesProviderSupportedMetric[]",
+						"name": "",
+						"type": "tuple[]"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -26,7 +64,18 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"getLabel()": {
+					"notice": "Provides a human friendly label describing on what this Future Provider enables speculating"
+				},
+				"getSupportedAssets()": {
+					"notice": "Provides names of the supported assets"
+				},
+				"getSupportedMetrics()": {
+					"notice": "Provides the available metrics and their names and integer IDs"
+				}
+			},
+			"notice": "These methods are to provide information to the DApp about a particular Futures Provider",
 			"version": 1
 		}
 	},
@@ -47,11 +96,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesProvider.sol": {
-			"keccak256": "0xa9181e66f22f40f11e12b1dcc2d80104dcbdbcca4196b3f72d7e57c269881908",
+			"keccak256": "0xcd380189290f846f8cd3f9982dcb333b863af6ecd7029cca55f7123eeb6fab8e",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://c1f391ac8b7c5fe75022442e4ca83e63b35a2dcffe497adb89c12b4d0e0316fd",
-				"dweb:/ipfs/QmbstaFNSAMipbd6DDYJNoEDMn6oNNDaBUoFUeWr3CjYAe"
+				"bzz-raw://0e9ee4a3e9e1ec7956bb9ae9ee299730dec7879fd662745fc084426d152a275c",
+				"dweb:/ipfs/QmRms9PHd3gnEU46H6ZqYPv4Em1QYxqLy1QEXU33YT5CDW"
 			]
 		}
 	},
