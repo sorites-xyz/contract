@@ -1,0 +1,64 @@
+{
+	"compiler": {
+		"version": "0.8.25+commit.b61c2a91"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint80",
+						"name": "speculationId",
+						"type": "uint80"
+					},
+					{
+						"internalType": "bool",
+						"name": "outcomeWasMet",
+						"type": "bool"
+					}
+				],
+				"name": "specifyOutcome",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"interfaces/IFuturesConsumer.sol": "IFuturesConsumer"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"interfaces/IFuturesConsumer.sol": {
+			"keccak256": "0xec6cf42351451e27ccffcaed498bd2e72dc0b87a1a68ed492ce2f7d009cceb22",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://08f070596e2ec75a987261761804bda4466d3131eb71bc487dface4ea387217b",
+				"dweb:/ipfs/QmcrSgXTLW3dDkQJRtWSX6sDm9tEYmXA2FaAzWmbGU8U7w"
+			]
+		}
+	},
+	"version": 1
+}

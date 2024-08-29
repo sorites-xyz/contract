@@ -1,27 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.25;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "../interfaces/IERC20.sol";
+import "../interfaces/IFuturesProvider.sol";
+import "../interfaces/IFuturesConsumer.sol";
 
-interface IERC20 {
-    function transfer(address recipient, uint256 amount) external returns (bool);
-    function transferFrom(address from, address to, uint256 amount) external returns (bool);
-    function balanceOf(address account) external view returns (uint256);
-}
-
-enum SpeculationStatus {
-    InProgress,
-    YesWon,
-    NoWon
-}
-
-enum SpeculationTokenType {
-    Yes,
-    No
-}
+enum SpeculationStatus { InProgress, YesWon, NoWon }
+enum SpeculationTokenType { Yes, No }
 
 struct Speculation {
     uint64 startTime;
@@ -33,9 +20,12 @@ struct Speculation {
 
     SpeculationStatus status;
     uint80 usdcWonPerWinningToken;
+
+    address futuresContractAddress;
+    bool futuresOutcomeRequested;
 }
 
-contract Sorites is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSUpgradeable {
+contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     //// USDC
     // Hard coded official USDC contract: https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
     IERC20 private constant contractForUSDC = IERC20(0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913);
@@ -44,6 +34,24 @@ contract Sorites is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSU
         bool success = contractForUSDC.transferFrom(from, to, amount);
 
         require(success, "USDC transfer failed");
+    }
+
+    //// Futures Contract Interface
+    mapping(address => bool) public futuresContractAddressWhitelist;
+
+    // Add a Futures Contract usable for new speculations
+    function addFuturesContract(address futuresAddress) public onlyOwner {
+        // Verify as a valid IFuturesProvider
+        IFuturesProvider provider = IFuturesProvider(futuresAddress);
+        require(provider.isFuturesProvider(), "Invalid");
+
+        futuresContractAddressWhitelist[futuresAddress] = true;
+    }
+
+    // Stop people from using a Futures Contract for new speculations
+    // Existing speculations will still have the contract
+    function removeFuturesContract(address futuresAddress) public onlyOwner {
+        delete futuresContractAddressWhitelist[futuresAddress];
     }
 
     //// Speculations
@@ -137,7 +145,7 @@ contract Sorites is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSU
         Speculation storage speculation = getSpeculation(speculationId);
     
         // Assert block time
-        require(speculation.endTime <= block.timestamp, "Speculation is over");
+        require(speculation.endTime > block.timestamp, "Speculation is over");
 
         // Deposit USDC
         moveUSDC(msg.sender, address(this), usdcToDeposit);
@@ -170,12 +178,15 @@ contract Sorites is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSU
         _mintSpeculationTokens(speculationId, usdcToDeposit, tokenType);
     }
 
-    function createSpeculation(uint64 endTime, uint80 usdcToDeposit, SpeculationTokenType tokenType) public {
+    function createSpeculation(address futuresContractAddress, uint64 endTime, uint80 usdcToDeposit, SpeculationTokenType tokenType) public {
         // Require minimum deposit to create a speculation
         require(usdcToDeposit >= 25 * 10e6, "Not enough USDC");
 
         // Prevent speculations from ending in the past
         require(endTime >= block.timestamp, "Cannot end in past");
+
+        // Only allow whitelisted Futures Contracts
+        require(futuresContractAddressWhitelist[futuresContractAddress], "Not whitelisted");
 
         uint80 speculationId = nextSpeculationId;
         ++nextSpeculationId;
@@ -189,53 +200,49 @@ contract Sorites is Initializable, ERC1155Upgradeable, OwnableUpgradeable, UUPSU
             totalNoTokens: 1,
 
             status: SpeculationStatus.InProgress,
-            usdcWonPerWinningToken: 0
+            usdcWonPerWinningToken: 0,
+
+            futuresContractAddress: futuresContractAddress,
+            futuresOutcomeRequested: false
         });
 
         // Mint the tokens
         _mintSpeculationTokens(speculationId, usdcToDeposit, tokenType);
-
-        // TODO: Accept a market as input and store it in the speculation
     }
 
-    //// Chainlink
-
-    // TODO: onlyChainLink
-    function specifyOutcome(uint80 speculationId, SpeculationTokenType winningTokenType) public {
+    /// IFuturesConsumer
+    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) public {
         Speculation storage speculation = getSpeculation(speculationId);
-    
+
+        require(speculation.futuresContractAddress == msg.sender, "Unauthorised");
         require(speculation.status == SpeculationStatus.InProgress, "Speculation not in progress");
         require(speculation.endTime <= block.timestamp, "Speculation not over");
 
-        speculation.status = winningTokenType == SpeculationTokenType.Yes
-            ? SpeculationStatus.YesWon
-            : SpeculationStatus.NoWon;
+        speculation.status = outcomeWasMet ? SpeculationStatus.YesWon : SpeculationStatus.NoWon;
     }
 
-    function askChainLinkForOutcome(uint80 speculationId) view public {
+    /// Interface with IFuturesProvider
+    // Anyone can call this, but only once
+    function requestOutcome(uint80 speculationId) public {
         Speculation storage speculation = getSpeculation(speculationId);
     
+        require(!speculation.futuresOutcomeRequested, "Already requested");
         require(speculation.status == SpeculationStatus.InProgress, "Speculation not in progress");
         require(speculation.endTime <= block.timestamp, "Speculation not over");
 
-        // TODO: ask them to somehow call specifyOutcome
+        IFuturesProvider provider = IFuturesProvider(speculation.futuresContractAddress);
+        provider.requestFutureOutcome(speculationId);
+
+        speculation.futuresOutcomeRequested = true;
     }
 
     //// Internal
-    constructor() payable {
-        _disableInitializers();
-    }
-
-    function initialize(address owner) initializer public {
-        __ERC1155_init("https://sorites.deno.dev/api/v1/tokens/{id}.json");
-        __Ownable_init(owner);
-        __UUPSUpgradeable_init();
-    }
+    constructor()
+        payable
+        ERC1155("https://app.sorites.xyz/api/v1/tokens/{id}.json")
+        Ownable(msg.sender) {}
 
     function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);
     }
-
-    function _authorizeUpgrade(address newImplementation) internal onlyOwner override {}
-
 }

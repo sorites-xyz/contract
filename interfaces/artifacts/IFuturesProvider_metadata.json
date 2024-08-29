@@ -1,0 +1,100 @@
+{
+	"compiler": {
+		"version": "0.8.25+commit.b61c2a91"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint80",
+						"name": "speculationId",
+						"type": "uint80"
+					},
+					{
+						"internalType": "uint8",
+						"name": "metric",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint80",
+						"name": "value",
+						"type": "uint80"
+					},
+					{
+						"internalType": "uint64",
+						"name": "endTime",
+						"type": "uint64"
+					}
+				],
+				"name": "createFuture",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "isFuturesProvider",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint80",
+						"name": "speculationId",
+						"type": "uint80"
+					}
+				],
+				"name": "requestFutureOutcome",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"interfaces/IFuturesProvider.sol": "IFuturesProvider"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"interfaces/IFuturesProvider.sol": {
+			"keccak256": "0x91085bdef4c8f5f73f400e511222c1dbc33d8acc8fbaa1baef334708543ddb9d",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://3cfaf69e4041dc61c5262e59a3def6fb3225e6ebf2dbc237f803cbe6762f38d6",
+				"dweb:/ipfs/Qme94r34q6hRkNc9VCJP5q6AParEcgscpeNZiWNVb6RZTf"
+			]
+		}
+	},
+	"version": 1
+}
