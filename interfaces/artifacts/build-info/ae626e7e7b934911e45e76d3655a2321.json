@@ -1,0 +1,460 @@
+{
+	"id": "ae626e7e7b934911e45e76d3655a2321",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.25",
+	"solcLongVersion": "0.8.25+commit.b61c2a91",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"interfaces/IFuturesConsumer.sol": {
+				"content": "// SPDX-License-Identifier: UNLICENSED\npragma solidity 0.8.25;\n\ninterface IFuturesConsumer {\n    /**\n     * This method is to be called by a Futures contract on the Sorites contract\n     */\n    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) external;\n\n    /**\n     * This method is to be called by a Futures contract on the Sorites contract to create a new Speculation\n     */\n    function createSpeculation(address minter, uint64 endTime, uint80 usdcToDeposit, bool speculatingOnYes) external returns (uint80);\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"contracts": {
+			"interfaces/IFuturesConsumer.sol": {
+				"IFuturesConsumer": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "minter",
+									"type": "address"
+								},
+								{
+									"internalType": "uint64",
+									"name": "endTime",
+									"type": "uint64"
+								},
+								{
+									"internalType": "uint80",
+									"name": "usdcToDeposit",
+									"type": "uint80"
+								},
+								{
+									"internalType": "bool",
+									"name": "speculatingOnYes",
+									"type": "bool"
+								}
+							],
+							"name": "createSpeculation",
+							"outputs": [
+								{
+									"internalType": "uint80",
+									"name": "",
+									"type": "uint80"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint80",
+									"name": "speculationId",
+									"type": "uint80"
+								},
+								{
+									"internalType": "bool",
+									"name": "outcomeWasMet",
+									"type": "bool"
+								}
+							],
+							"name": "specifyOutcome",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"createSpeculation(address,uint64,uint80,bool)": "23bfaefa",
+							"specifyOutcome(uint80,bool)": "d68b975c"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"minter\",\"type\":\"address\"},{\"internalType\":\"uint64\",\"name\":\"endTime\",\"type\":\"uint64\"},{\"internalType\":\"uint80\",\"name\":\"usdcToDeposit\",\"type\":\"uint80\"},{\"internalType\":\"bool\",\"name\":\"speculatingOnYes\",\"type\":\"bool\"}],\"name\":\"createSpeculation\",\"outputs\":[{\"internalType\":\"uint80\",\"name\":\"\",\"type\":\"uint80\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint80\",\"name\":\"speculationId\",\"type\":\"uint80\"},{\"internalType\":\"bool\",\"name\":\"outcomeWasMet\",\"type\":\"bool\"}],\"name\":\"specifyOutcome\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"createSpeculation(address,uint64,uint80,bool)\":{\"notice\":\"This method is to be called by a Futures contract on the Sorites contract to create a new Speculation\"},\"specifyOutcome(uint80,bool)\":{\"notice\":\"This method is to be called by a Futures contract on the Sorites contract\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"interfaces/IFuturesConsumer.sol\":\"IFuturesConsumer\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"interfaces/IFuturesConsumer.sol\":{\"keccak256\":\"0xd2530ffb8c87a6fe53dc87ebbccbdf473ac43e61c9c6a870a83f7a0d999ea371\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://02df93497c78af32bb89d63ddfc970846a5197e8e8eb41cbd7080a2c8d5fff71\",\"dweb:/ipfs/QmRWuMVZJEgnocsV2s2KMzo3A4nJyYPMJvVMbTuqgzt4K7\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {
+							"createSpeculation(address,uint64,uint80,bool)": {
+								"notice": "This method is to be called by a Futures contract on the Sorites contract to create a new Speculation"
+							},
+							"specifyOutcome(uint80,bool)": {
+								"notice": "This method is to be called by a Futures contract on the Sorites contract"
+							}
+						},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"interfaces/IFuturesConsumer.sol": {
+				"ast": {
+					"absolutePath": "interfaces/IFuturesConsumer.sol",
+					"exportedSymbols": {
+						"IFuturesConsumer": [
+							24
+						]
+					},
+					"id": 25,
+					"license": "UNLICENSED",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".25"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "39:23:0"
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IFuturesConsumer",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 24,
+							"linearizedBaseContracts": [
+								24
+							],
+							"name": "IFuturesConsumer",
+							"nameLocation": "74:16:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"documentation": {
+										"id": 2,
+										"nodeType": "StructuredDocumentation",
+										"src": "97:92:0",
+										"text": " This method is to be called by a Futures contract on the Sorites contract"
+									},
+									"functionSelector": "d68b975c",
+									"id": 9,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "specifyOutcome",
+									"nameLocation": "203:14:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 7,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 4,
+												"mutability": "mutable",
+												"name": "speculationId",
+												"nameLocation": "225:13:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 9,
+												"src": "218:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint80",
+													"typeString": "uint80"
+												},
+												"typeName": {
+													"id": 3,
+													"name": "uint80",
+													"nodeType": "ElementaryTypeName",
+													"src": "218:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint80",
+														"typeString": "uint80"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 6,
+												"mutability": "mutable",
+												"name": "outcomeWasMet",
+												"nameLocation": "245:13:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 9,
+												"src": "240:18:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 5,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "240:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "217:42:0"
+									},
+									"returnParameters": {
+										"id": 8,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "268:0:0"
+									},
+									"scope": 24,
+									"src": "194:75:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"documentation": {
+										"id": 10,
+										"nodeType": "StructuredDocumentation",
+										"src": "275:120:0",
+										"text": " This method is to be called by a Futures contract on the Sorites contract to create a new Speculation"
+									},
+									"functionSelector": "23bfaefa",
+									"id": 23,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "createSpeculation",
+									"nameLocation": "409:17:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 19,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 12,
+												"mutability": "mutable",
+												"name": "minter",
+												"nameLocation": "435:6:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 23,
+												"src": "427:14:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 11,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "427:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 14,
+												"mutability": "mutable",
+												"name": "endTime",
+												"nameLocation": "450:7:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 23,
+												"src": "443:14:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint64",
+													"typeString": "uint64"
+												},
+												"typeName": {
+													"id": 13,
+													"name": "uint64",
+													"nodeType": "ElementaryTypeName",
+													"src": "443:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint64",
+														"typeString": "uint64"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 16,
+												"mutability": "mutable",
+												"name": "usdcToDeposit",
+												"nameLocation": "466:13:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 23,
+												"src": "459:20:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint80",
+													"typeString": "uint80"
+												},
+												"typeName": {
+													"id": 15,
+													"name": "uint80",
+													"nodeType": "ElementaryTypeName",
+													"src": "459:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint80",
+														"typeString": "uint80"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 18,
+												"mutability": "mutable",
+												"name": "speculatingOnYes",
+												"nameLocation": "486:16:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 23,
+												"src": "481:21:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 17,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "481:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "426:77:0"
+									},
+									"returnParameters": {
+										"id": 22,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 21,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 23,
+												"src": "522:6:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint80",
+													"typeString": "uint80"
+												},
+												"typeName": {
+													"id": 20,
+													"name": "uint80",
+													"nodeType": "ElementaryTypeName",
+													"src": "522:6:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint80",
+														"typeString": "uint80"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "521:8:0"
+									},
+									"scope": 24,
+									"src": "400:130:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 25,
+							"src": "64:468:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "39:493:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

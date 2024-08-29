@@ -13,6 +13,4 @@ interface IFuturesProvider {
         uint80 value,
         uint64 endTime
     ) external;
-
-    function requestFutureOutcome(uint80 speculationId) external;
 }

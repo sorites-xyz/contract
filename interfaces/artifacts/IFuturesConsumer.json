@@ -49,10 +49,45 @@
 		},
 		"gasEstimates": null,
 		"methodIdentifiers": {
+			"createSpeculation(address,uint64,uint80,bool)": "23bfaefa",
 			"specifyOutcome(uint80,bool)": "d68b975c"
 		}
 	},
 	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "minter",
+					"type": "address"
+				},
+				{
+					"internalType": "uint64",
+					"name": "endTime",
+					"type": "uint64"
+				},
+				{
+					"internalType": "uint80",
+					"name": "usdcToDeposit",
+					"type": "uint80"
+				},
+				{
+					"internalType": "bool",
+					"name": "speculatingOnYes",
+					"type": "bool"
+				}
+			],
+			"name": "createSpeculation",
+			"outputs": [
+				{
+					"internalType": "uint80",
+					"name": "",
+					"type": "uint80"
+				}
+			],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
 		{
 			"inputs": [
 				{

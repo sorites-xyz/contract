@@ -50,8 +50,7 @@
 		"gasEstimates": null,
 		"methodIdentifiers": {
 			"createFuture(uint80,uint8,uint80,uint64)": "97a857e6",
-			"isFuturesProvider()": "3021fa09",
-			"requestFutureOutcome(uint80)": "2414f270"
+			"isFuturesProvider()": "3021fa09"
 		}
 	},
 	"abi": [
@@ -93,19 +92,6 @@
 					"type": "bool"
 				}
 			],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint80",
-					"name": "speculationId",
-					"type": "uint80"
-				}
-			],
-			"name": "requestFutureOutcome",
-			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
 		}

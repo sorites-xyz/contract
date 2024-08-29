@@ -221,21 +221,6 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         speculation.status = outcomeWasMet ? SpeculationStatus.YesWon : SpeculationStatus.NoWon;
     }
 
-    /// Interface with IFuturesProvider
-    // Anyone can call this, but only once
-    function requestOutcome(uint80 speculationId) public {
-        Speculation storage speculation = getSpeculation(speculationId);
-    
-        require(!speculation.futuresOutcomeRequested, "Already requested");
-        require(speculation.status == SpeculationStatus.InProgress, "Speculation not in progress");
-        require(speculation.endTime <= block.timestamp, "Speculation not over");
-
-        IFuturesProvider provider = IFuturesProvider(speculation.futuresContractAddress);
-        provider.requestFutureOutcome(speculationId);
-
-        speculation.futuresOutcomeRequested = true;
-    }
-
     //// Internal
     constructor()
         payable

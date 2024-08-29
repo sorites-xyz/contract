@@ -45,19 +45,6 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint80",
-						"name": "speculationId",
-						"type": "uint80"
-					}
-				],
-				"name": "requestFutureOutcome",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -88,11 +75,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesProvider.sol": {
-			"keccak256": "0x91085bdef4c8f5f73f400e511222c1dbc33d8acc8fbaa1baef334708543ddb9d",
+			"keccak256": "0x32d8582f8688726bb7f04f95be37f230621ddca750a34e0ae1d7df51d37a8030",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://3cfaf69e4041dc61c5262e59a3def6fb3225e6ebf2dbc237f803cbe6762f38d6",
-				"dweb:/ipfs/Qme94r34q6hRkNc9VCJP5q6AParEcgscpeNZiWNVb6RZTf"
+				"bzz-raw://cba8077f82c1006278e6bb180dbb161f6c85b6c20bffff8984ae685fd1b0ab33",
+				"dweb:/ipfs/QmUCEnR7DYsaCkheuEPDPsovXbmqSdAHZfUdqLWAVFgSei"
 			]
 		}
 	},

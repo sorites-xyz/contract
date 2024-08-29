@@ -23,6 +23,7 @@ struct Future {
 **/
 contract SoritesPriceFuturesProvider is IFuturesProvider, ConfirmedOwner {
     //// Price Oracles
+    // Addresses in https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=2&search=usd
     mapping (string => address) public chainlinkPriceOracles;
     string[] public supportedAssets;
 
@@ -85,9 +86,6 @@ contract SoritesPriceFuturesProvider is IFuturesProvider, ConfirmedOwner {
             aggregator
         );
 
-        // Now we know that {answer} is the earliest available answer
-        // that's still on/after the {endTime}
-
         bool outcomeWasMet;
 
         if (future.metric == METRIC_PRICE_LESS_THAN) {
@@ -95,7 +93,7 @@ contract SoritesPriceFuturesProvider is IFuturesProvider, ConfirmedOwner {
         } else if (future.metric == METRIC_PRICE_MORE_THAN_OR_EQUAL_TO) {
             outcomeWasMet = future.value >= answer;
         } else {
-            revert("Unsupported");
+            revert("Bad metric");
         }
 
         consumer.specifyOutcome(speculationId, outcomeWasMet);

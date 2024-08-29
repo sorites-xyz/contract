@@ -31,7 +31,11 @@
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {},
+			"methods": {
+				"specifyOutcome(uint80,bool)": {
+					"notice": "This method is to be called by a Futures contract on the Sorites contract"
+				}
+			},
 			"version": 1
 		}
 	},
@@ -52,11 +56,11 @@
 	},
 	"sources": {
 		"interfaces/IFuturesConsumer.sol": {
-			"keccak256": "0xec6cf42351451e27ccffcaed498bd2e72dc0b87a1a68ed492ce2f7d009cceb22",
+			"keccak256": "0x42693ee3d59e97d2a0259301606f458b502ad43b6e3a39ca29a2168b8d830a5e",
 			"license": "UNLICENSED",
 			"urls": [
-				"bzz-raw://08f070596e2ec75a987261761804bda4466d3131eb71bc487dface4ea387217b",
-				"dweb:/ipfs/QmcrSgXTLW3dDkQJRtWSX6sDm9tEYmXA2FaAzWmbGU8U7w"
+				"bzz-raw://5641eca9cb292be3211e5ae2a1f987a418b92dc1cbc5304f78af70479f504f7f",
+				"dweb:/ipfs/Qmd4i1uCA9add6QmxpaQyM9F3xJ8GPPdyLaX3gGN6Eoxrb"
 			]
 		}
 	},
