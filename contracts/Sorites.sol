@@ -7,10 +7,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IERC20.sol";
 import "../interfaces/IFuturesConsumer.sol";
 
-enum SpeculationStatus { InProgress, YesWon, NoWon }
-enum SpeculationTokenType { Yes, No }
+enum MarketEventStatus { InProgress, YesWon, NoWon }
 
-struct Speculation {
+struct MarketEvent {
     uint64 startTime;
     uint64 endTime;
     
@@ -18,7 +17,7 @@ struct Speculation {
     uint80 totalYesTokens;
     uint80 totalNoTokens;
 
-    SpeculationStatus status;
+    MarketEventStatus status;
     uint80 usdcWonPerWinningToken;
 
     address futuresContractAddress;
@@ -50,42 +49,42 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     }
 
     //// Market Events
-    mapping(uint80 => Speculation) private speculations;
-    uint80 private nextSpeculationId;
+    mapping(uint80 => MarketEvent) private marketEvents;
+    uint80 private nextMarketEventId;
     
-    event MarketEventResolved(address who, uint80 speculationId, uint256 amountInUSDC, bool tokenTypeYes);
-    event CashedOut(address who, uint80 speculationId, uint256 amountInUSDC);
+    event MarketEventResolved(address who, uint80 marketEventId, uint256 amountInUSDC, bool tokenTypeYes);
+    event CashedOut(address who, uint80 marketEventId, uint256 amountInUSDC);
 
-    function getSpeculation(uint80 speculationId) private view returns (Speculation storage) {
-        require(speculationId < nextSpeculationId, "Speculation does not exist");
-        return speculations[speculationId];
+    function getMarketEvent(uint80 marketEventId) private view returns (MarketEvent storage) {
+        require(marketEventId < nextMarketEventId, "MarketEvent does not exist");
+        return marketEvents[marketEventId];
     }
 
-    function getNoTokenId(uint80 speculationId) private pure returns (uint256) {
-        return uint256(speculationId) << 1;
+    function getNoTokenId(uint80 marketEventId) private pure returns (uint256) {
+        return uint256(marketEventId) << 1;
     }
 
-    function getYesTokenId(uint80 speculationId) private pure returns (uint256) {
-        return (uint256(speculationId) << 1) + 1;
+    function getYesTokenId(uint80 marketEventId) private pure returns (uint256) {
+        return (uint256(marketEventId) << 1) + 1;
     }
 
-    function collectWinnings(uint80 speculationId) public {
-        Speculation storage speculation = getSpeculation(speculationId);
+    function collectWinnings(uint80 marketEventId) public {
+        MarketEvent storage marketEvent = getMarketEvent(marketEventId);
 
         require(
-            speculation.status != SpeculationStatus.InProgress,
-            "Speculation in progress"
+            marketEvent.status != MarketEventStatus.InProgress,
+            "MarketEvent in progress"
         );
 
-        uint256 winningTokenId = speculation.status == SpeculationStatus.YesWon
-            ? getYesTokenId(speculationId)
-            : getNoTokenId(speculationId);
+        uint256 winningTokenId = marketEvent.status == MarketEventStatus.YesWon
+            ? getYesTokenId(marketEventId)
+            : getNoTokenId(marketEventId);
 
         uint256 winningTokenCount = balanceOf(msg.sender, winningTokenId);
 
         require(winningTokenCount != 0, "No winnings");
 
-        uint256 winningAmountInUSDC = speculation.usdcWonPerWinningToken * winningTokenCount;
+        uint256 winningAmountInUSDC = marketEvent.usdcWonPerWinningToken * winningTokenCount;
 
         // Burn winning tokens
         _burn(msg.sender, winningTokenId, winningTokenCount);
@@ -94,12 +93,12 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         moveUSDC(address(this), msg.sender, winningAmountInUSDC);
 
         // Let the world know
-        emit CashedOut(msg.sender, speculationId, winningAmountInUSDC);
+        emit CashedOut(msg.sender, marketEventId, winningAmountInUSDC);
     }
 
-    function calculateMintAmountPerUSDC(Speculation storage speculation, bool tokenTypeYes) private view returns (uint80) {
-        uint64 totalDuration = speculation.endTime - speculation.startTime;
-        uint64 timeElapsedSoFar = uint64(block.timestamp) - speculation.startTime;
+    function calculateMintAmountPerUSDC(MarketEvent storage marketEvent, bool tokenTypeYes) private view returns (uint80) {
+        uint64 totalDuration = marketEvent.endTime - marketEvent.startTime;
+        uint64 timeElapsedSoFar = uint64(block.timestamp) - marketEvent.startTime;
         uint64 elapsedTimeProportion = timeElapsedSoFar / totalDuration;
         bool timeMoreThanHalfWay = timeElapsedSoFar > (totalDuration >> 1);
 
@@ -108,12 +107,12 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
             : 1 - 8 * elapsedTimeProportion ** 4;
 
         uint256 aTokenTotal = tokenTypeYes
-            ? speculation.totalYesTokens
-            : speculation.totalNoTokens;
+            ? marketEvent.totalYesTokens
+            : marketEvent.totalNoTokens;
 
         uint256 bTokenTotal = tokenTypeYes
-            ? speculation.totalNoTokens
-            : speculation.totalYesTokens;
+            ? marketEvent.totalNoTokens
+            : marketEvent.totalYesTokens;
 
         require(bTokenTotal <= aTokenTotal, "Invalid state");
 
@@ -136,68 +135,68 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
         }
     }
 
-    function _mintMarketEventTokens(address minter, uint80 speculationId, uint80 usdcToDeposit, bool tokenTypeYes) private {
-        Speculation storage speculation = getSpeculation(speculationId);
+    function _mintMarketEventTokens(address minter, uint80 marketEventId, uint80 usdcToDeposit, bool tokenTypeYes) private {
+        MarketEvent storage marketEvent = getMarketEvent(marketEventId);
     
         // Assert block time
-        require(speculation.endTime > block.timestamp, "Speculation is over");
+        require(marketEvent.endTime > block.timestamp, "MarketEvent is over");
 
         // Deposit USDC
         moveUSDC(minter, address(this), usdcToDeposit);
 
         // Calculate mint rate
-        uint80 mintAmountPerUSDC = calculateMintAmountPerUSDC(speculation, tokenTypeYes);
+        uint80 mintAmountPerUSDC = calculateMintAmountPerUSDC(marketEvent, tokenTypeYes);
         uint80 tokensToMint = mintAmountPerUSDC * usdcToDeposit;
 
         // Mint tokens
-        uint256 speculationTokenId = tokenTypeYes
-            ? getYesTokenId(speculationId)
-            : getNoTokenId(speculationId);
+        uint256 marketEventTokenId = tokenTypeYes
+            ? getYesTokenId(marketEventId)
+            : getNoTokenId(marketEventId);
 
-        _mint(minter, speculationTokenId, tokensToMint, new bytes(0));
+        _mint(minter, marketEventTokenId, tokensToMint, new bytes(0));
 
-        // Update speculation (TODO: check that this stores the updates)
-        speculation.totalUSDC += usdcToDeposit;
+        // Update marketEvent (TODO: check that this stores the updates)
+        marketEvent.totalUSDC += usdcToDeposit;
 
         if (tokenTypeYes) {
-            speculation.totalYesTokens += tokensToMint;
+            marketEvent.totalYesTokens += tokensToMint;
         } else {
-            speculation.totalNoTokens += tokensToMint;
+            marketEvent.totalNoTokens += tokensToMint;
         }
 
         // Tell the world
-        emit MarketEventResolved(minter, speculationId, usdcToDeposit, tokenTypeYes);
+        emit MarketEventResolved(minter, marketEventId, usdcToDeposit, tokenTypeYes);
     }
 
-    function mintMarketEventTokens(uint80 speculationId, uint80 usdcToDeposit, bool tokenTypeYes) public {
-        _mintMarketEventTokens(msg.sender, speculationId, usdcToDeposit, tokenTypeYes);
+    function mintMarketEventTokens(uint80 marketEventId, uint80 usdcToDeposit, bool tokenTypeYes) public {
+        _mintMarketEventTokens(msg.sender, marketEventId, usdcToDeposit, tokenTypeYes);
     }
 
     /// IFuturesConsumer
-    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) public {
-        Speculation storage speculation = getSpeculation(speculationId);
+    function specifyOutcome(uint80 marketEventId, bool outcomeWasMet) public {
+        MarketEvent storage marketEvent = getMarketEvent(marketEventId);
 
-        require(speculation.futuresContractAddress == msg.sender, "Unauthorised");
-        require(speculation.status == SpeculationStatus.InProgress, "Speculation not in progress");
-        require(speculation.endTime <= block.timestamp, "Speculation not over");
+        require(marketEvent.futuresContractAddress == msg.sender, "Unauthorised");
+        require(marketEvent.status == MarketEventStatus.InProgress, "MarketEvent not in progress");
+        require(marketEvent.endTime <= block.timestamp, "MarketEvent not over");
 
-        speculation.status = outcomeWasMet ? SpeculationStatus.YesWon : SpeculationStatus.NoWon;
+        marketEvent.status = outcomeWasMet ? MarketEventStatus.YesWon : MarketEventStatus.NoWon;
     }
 
     function createMarketEvent(address minter, uint64 endTime, uint80 usdcToDeposit, bool tokenTypeYes) external returns (uint80) {
-        // Require minimum deposit to create a speculation
+        // Require minimum deposit to create a marketEvent
         require(usdcToDeposit >= 25 * 10e6, "Not enough USDC");
 
-        // Prevent speculations from ending in the past
+        // Prevent marketEvents from ending in the past
         require(endTime >= block.timestamp, "Cannot end in past");
 
         // Only allow whitelisted Futures Contracts
         require(futuresContractAddressWhitelist[msg.sender], "Not whitelisted");
 
-        uint80 speculationId = nextSpeculationId;
-        ++nextSpeculationId;
+        uint80 marketEventId = nextMarketEventId;
+        ++nextMarketEventId;
 
-        speculations[speculationId] = Speculation({
+        marketEvents[marketEventId] = MarketEvent({
             startTime: uint64(block.timestamp),
             endTime: endTime,
 
@@ -205,16 +204,16 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
             totalYesTokens: 1,
             totalNoTokens: 1,
 
-            status: SpeculationStatus.InProgress,
+            status: MarketEventStatus.InProgress,
             usdcWonPerWinningToken: 0,
 
             futuresContractAddress: msg.sender
         });
 
         // Mint the tokens
-        _mintMarketEventTokens(minter, speculationId, usdcToDeposit, tokenTypeYes);
+        _mintMarketEventTokens(minter, marketEventId, usdcToDeposit, tokenTypeYes);
 
-        return speculationId;
+        return marketEventId;
     }
 
     //// Internal

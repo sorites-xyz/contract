@@ -8,7 +8,7 @@ interface IFuturesConsumer {
     /**
      * Ends a Market Event with a particular outcome
      */
-    function specifyOutcome(uint80 speculationId, bool outcomeWasMet) external;
+    function specifyOutcome(uint80 marketEventId, bool outcomeWasMet) external;
 
     /**
      * Creates a new market event on behalf of the {minter}

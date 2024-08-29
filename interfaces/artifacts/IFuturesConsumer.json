@@ -92,7 +92,7 @@
 			"inputs": [
 				{
 					"internalType": "uint80",
-					"name": "speculationId",
+					"name": "marketEventId",
 					"type": "uint80"
 				},
 				{

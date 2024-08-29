@@ -20,7 +20,7 @@ struct Future {
 }
 
 /**
- * This contract resolved Sorites speculations to Yes or No depending
+ * This contract resolved Sorites marketEvents to Yes or No depending
  * on the price of an asset after a specified time.
 **/
 contract SoritesPriceFuturesProvider is ConfirmedOwner {
@@ -68,26 +68,26 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
         require(supportedAssetsSet[asset], "Bad asset");
         require(value >= 1, "Bad value");
 
-        uint80 speculationId = consumer.createMarketEvent(msg.sender, endTime, usdcToDeposit, speculatingOnYes);
+        uint80 marketEventId = consumer.createMarketEvent(msg.sender, endTime, usdcToDeposit, speculatingOnYes);
 
-        futures[speculationId] = Future(asset, metric, value, endTime);
+        futures[marketEventId] = Future(asset, metric, value, endTime);
 
-        return speculationId;
+        return marketEventId;
     }
 
 
     /**
-     * This function is how the public can request for a speculation to be concluded.
+     * This function is how the public can request for a marketEvent to be concluded.
      *
      * {aggregatorRoundId} is the Round ID from Chainlink, and it must be such that
      * {aggregatorRoundId} is on/after the endTime but {aggregatorRoundId - 1} is before the endTime.
      * This is to ensure that we use the earliest available round that falls on/after the endTime.
      */
-    function requestFutureOutcome(uint80 speculationId, uint80 aggregatorRoundId) public {
-        Future storage future = futures[speculationId];
+    function requestFutureOutcome(uint80 marketEventId, uint80 aggregatorRoundId) public {
+        Future storage future = futures[marketEventId];
         address oracleAddress = chainlinkPriceOracles[future.asset];
 
-        require(oracleAddress != address(0), "Bad speculationId");
+        require(oracleAddress != address(0), "Bad marketEventId");
 
         AggregatorV3Interface aggregator = AggregatorV3Interface(oracleAddress);
 
@@ -107,7 +107,7 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
             revert("Bad metric");
         }
 
-        consumer.specifyOutcome(speculationId, outcomeWasMet);
+        consumer.specifyOutcome(marketEventId, outcomeWasMet);
     }
 
     function getRoundPrice(uint80 endTime, uint80 aggregatorRoundId, AggregatorV3Interface aggregator) private view returns (uint80) {
