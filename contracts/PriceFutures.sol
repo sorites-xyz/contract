@@ -111,31 +111,17 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner {
     }
 
     function getRoundPrice(uint80 endTime, uint80 aggregatorRoundId, AggregatorV3Interface aggregator) private view returns (uint80) {
-        // Target round must be on or after the endTime
-        (
-            uint80 roundId,
-            int256 answer,
-            uint256 startedAt,
-            uint256 updatedAt,
-            uint80 answeredInRound
-        ) = aggregator.getRoundData(aggregatorRoundId);
+        // Get the current and previous Aggregator Round Data
+        (,int256 answer,,uint256 updatedAt,) = aggregator.getRoundData(aggregatorRoundId);
+        (,,,uint256 previousUpdatedAt,) = aggregator.getRoundData(aggregatorRoundId - 1);
 
+        // Target round must be on or after the endTime
         require(updatedAt >= endTime, "Bad round (1)");
 
         // Round before target must be before the endTime
-        (
-            uint80 _roundId,
-            int256 _answer,
-            uint256 _startedAt,
-            uint256 beforeUpdatedAt,
-            uint80 _answeredInRound
-        ) = aggregator.getRoundData(aggregatorRoundId - 1);
+        require(previousUpdatedAt < endTime, "Bad round (2)");
 
-        require(beforeUpdatedAt < endTime, "Bad round (2)");
-
-        // Now we know that {answer} is the earliest available answer
-        // that's still on/after the {endTime}
-
+        // Now we know that {answer} is the earliest available answer that's still on/after the {endTime}
         require(answer < 0, "Bad answer");
 
         return uint80(uint256(answer));
