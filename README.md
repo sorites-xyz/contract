@@ -4,7 +4,8 @@
 
 1. Export the environment variables
 2. Compile the contracts
-3. Run `npm run deploy`
+3. Set the correct nonce in `scripts/deploy.js`
+4. Run `npm run deploy`
 
 ## Environment variables
 
