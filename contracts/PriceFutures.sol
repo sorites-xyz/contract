@@ -41,6 +41,7 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
 
         supportedAssets.push(asset);
         chainlinkPriceOracles[asset] = oracleAddress;
+        supportedAssetsSet[asset] = true;
     }
 
     //// FuturesProvider
