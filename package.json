@@ -1,6 +1,12 @@
 {
+  "type": "module",
+  "scripts": {
+    "deploy": "node --import=tsx ./scripts/deploy.ts"
+  },
   "dependencies": {
     "@chainlink/contracts": "^1.2.0",
-    "@openzeppelin/contracts": "^5.0.2"
+    "@openzeppelin/contracts": "^5.0.2",
+    "ethers": "^5.7.2",
+    "tsx": "^4.19.0"
   }
 }
