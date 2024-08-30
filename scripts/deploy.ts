@@ -16,7 +16,7 @@ const signer = new Wallet(process.env.PRIVATE_KEY!, provider);
 
 console.log("Wallet address:", signer.address);
 
-let nonce = 3;
+let nonce = 83;
 
 async function deployContract(name: string, constructorArgs: any[]) {
   const contractAbi = readFileSync(`./bin/contracts/${name}.abi`, "utf8");
@@ -57,8 +57,8 @@ await soritesContract.functions.addFuturesContract(
 // Get supported assets
 const supportedPriceAssets = await fetch(
   test
-    ? "https://reference-data-directory.vercel.app/feeds-ethereum-testnet-sepolia.json"
-    : "https://reference-data-directory.vercel.app/feeds-mainnet.json"
+    ? "https://reference-data-directory.vercel.app/feeds-ethereum-testnet-sepolia-base-1.json"
+    : "https://reference-data-directory.vercel.app/feeds-ethereum-mainnet-base-1.json"
 ).then((res) => res.json());
 
 for (const { name, contractAddress } of supportedPriceAssets) {
