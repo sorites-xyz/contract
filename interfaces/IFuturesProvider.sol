@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.25;
 
-struct FuturesProviderSupportedMetric {
+struct SupportedMetric {
   uint8 metricId;
   string name;
+  string[] valueLabels;
 }
 
 /**
@@ -37,7 +38,7 @@ interface IFuturesProvider {
   /**
    * Provides the available metrics and their names and integer IDs
    */
-  function getSupportedMetrics() external returns (FuturesProviderSupportedMetric[] memory);
+  function getSupportedMetrics() external returns (SupportedMetric[] memory);
 
   /**
    * Creates a new Market Event, returning the Market Event ID
@@ -45,7 +46,7 @@ interface IFuturesProvider {
   function createMarketEvent(
     string calldata asset,
     uint8 metric,
-    uint80 value,
+    int80[] calldata values,
     uint64 endTime,
     uint80 usdcToDeposit,
     bool speculatingOnYes

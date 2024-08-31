@@ -54,21 +54,22 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
   function createMarketEvent(
     string calldata asset,
     uint8 metric,
-    uint80 value,
+    int80[] calldata values,
     uint64 endTime,
     uint80 usdcToDeposit,
     bool speculatingOnYes
   ) public returns (uint80) {
     require(metric == METRIC_PRICE_LESS_THAN || metric == METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Bad metric");
     require(supportedAssetsSet[asset], "Bad asset");
-    require(value >= 1, "Bad value");
+    require(values.length == 1, "Bad values");
+    require(values[0] >= 1, "Bad value");
 
     uint80 marketEventId = consumer.createMarketEvent(msg.sender, endTime, usdcToDeposit, speculatingOnYes);
 
     // Assert that the existing future doesn't exist
     require(!futures[marketEventId].exists, "Existing");
 
-    futures[marketEventId] = Future(true, asset, metric, value, endTime);
+    futures[marketEventId] = Future(true, asset, metric, uint80(values[0]), endTime);
 
     return marketEventId;
   }
@@ -141,11 +142,14 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
     return supportedAssets;
   }
 
-  function getSupportedMetrics() public pure returns (FuturesProviderSupportedMetric[] memory) {
-    FuturesProviderSupportedMetric[] memory supportedMetricsValues;
+  function getSupportedMetrics() public pure returns (SupportedMetric[] memory) {
+    SupportedMetric[] memory supportedMetricsValues;
+    string[] memory valueLabels;
 
-    supportedMetricsValues[0] = FuturesProviderSupportedMetric(METRIC_PRICE_LESS_THAN, "Price is less than");
-    supportedMetricsValues[1] = FuturesProviderSupportedMetric(METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Price is more than or equal to");
+    valueLabels[0] = "USDC";
+
+    supportedMetricsValues[0] = SupportedMetric(METRIC_PRICE_LESS_THAN, "Price is less than", valueLabels);
+    supportedMetricsValues[1] = SupportedMetric(METRIC_PRICE_MORE_THAN_OR_EQUAL_TO, "Price is more than or equal to", valueLabels);
 
     return supportedMetricsValues;
   }
