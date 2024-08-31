@@ -35,17 +35,36 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
   }
 
   //// Futures Contract Interface
-  mapping(address => bool) public futuresContractAddressWhitelist;
+  mapping(address => bool) private futuresContractAddressWhitelist;
+  address[] public futuresContractWhitelistAddresses;
 
   // Authorise a Futures Contract to create and resolve Market Events
   function addFuturesContract(address futuresAddress) public onlyOwner {
+    require(!futuresContractAddressWhitelist[futuresAddress], "Exists");
     futuresContractAddressWhitelist[futuresAddress] = true;
+    futuresContractWhitelistAddresses.push(futuresAddress);
   }
 
   // Stop people from using a Futures Contract for new Market Events
   // Existing Market Events will still have the contract
   function removeFuturesContract(address futuresAddress) public onlyOwner {
+    require(futuresContractAddressWhitelist[futuresAddress], "Missing");
     delete futuresContractAddressWhitelist[futuresAddress];
+    
+    // Find index in futuresContractWhitelistAddresses
+    uint256 index;
+    for (uint256 i = 0; i < futuresContractWhitelistAddresses.length; i++) {
+      if (futuresContractWhitelistAddresses[i] == futuresAddress) {
+        index = i;
+        break;
+      }
+    }
+
+    // Swap with last element
+    futuresContractWhitelistAddresses[index] = futuresContractWhitelistAddresses[futuresContractWhitelistAddresses.length - 1];
+
+    // Remove last element
+    futuresContractWhitelistAddresses.pop();
   }
 
   //// Market Events
