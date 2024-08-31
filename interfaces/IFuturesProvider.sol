@@ -25,7 +25,7 @@ struct LabelVariable {
  */
 interface IFuturesProvider {
   /**
-   * Provides a human friendly label describing on what this Future Provider enables speculating
+   * Provides a human friendly label describing on what this Futures Provider enables speculating
    */
   function getLabel() external view returns (string memory);
 
@@ -38,6 +38,18 @@ interface IFuturesProvider {
    * Provides the available metrics and their names and integer IDs
    */
   function getSupportedMetrics() external returns (FuturesProviderSupportedMetric[] memory);
+
+  /**
+   * Creates a new Market Event, returning the Market Event ID
+   */
+  function createMarketEvent(
+    string calldata asset,
+    uint8 metric,
+    uint80 value,
+    uint64 endTime,
+    uint80 usdcToDeposit,
+    bool speculatingOnYes
+  ) external returns (uint80);
 
   /**
    * Provides a human friendly label for a Market Event
