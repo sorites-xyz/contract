@@ -150,6 +150,29 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
     return supportedMetricsValues;
   }
 
+  function getMarketEventName(uint80 marketEventId) public view returns (string memory) {
+    Future storage future = futures[marketEventId];
+    require(future.exists, "Bad marketEventId");
+
+    if (future.metric == METRIC_PRICE_LESS_THAN) {
+      return "Price of ASSET will be less than VALUE on END_DATE.";
+    }
+
+    return "Price of ASSET will be VALUE or more on END_DATE.";
+  }
+
+  function getMarketEventNameVariables(uint80 marketEventId) public view returns (LabelVariable[] memory) {
+    Future storage future = futures[marketEventId];
+    require(future.exists, "Bad marketEventId");
+
+    LabelVariable[] memory variables;
+
+    variables[0] = LabelVariable("string", "ASSET", 0);
+    variables[1] = LabelVariable("usdc", "VALUE", int256(uint256(future.value)));
+
+    return variables;
+  }
+
   //// Internal
   constructor(address initialConsumerAddress) ConfirmedOwner(msg.sender) {
     consumerAddress = initialConsumerAddress;

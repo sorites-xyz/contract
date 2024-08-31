@@ -1,0 +1,759 @@
+{
+    "contractName": "IFuturesProvider",
+    "abi": [
+        {
+            "inputs": [],
+            "name": "getLabel",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint80",
+                    "name": "marketEventId",
+                    "type": "uint80"
+                }
+            ],
+            "name": "getMarketEventName",
+            "outputs": [
+                {
+                    "internalType": "string",
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint80",
+                    "name": "marketEventId",
+                    "type": "uint80"
+                }
+            ],
+            "name": "getMarketEventNameVariables",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "string",
+                            "name": "format",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "text",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "int256",
+                            "name": "value",
+                            "type": "int256"
+                        }
+                    ],
+                    "internalType": "struct LabelVariable[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getSupportedAssets",
+            "outputs": [
+                {
+                    "internalType": "string[]",
+                    "name": "",
+                    "type": "string[]"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "getSupportedMetrics",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "uint8",
+                            "name": "metricId",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "name",
+                            "type": "string"
+                        }
+                    ],
+                    "internalType": "struct FuturesProviderSupportedMetric[]",
+                    "name": "",
+                    "type": "tuple[]"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ],
+    "metadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getLabel\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint80\",\"name\":\"marketEventId\",\"type\":\"uint80\"}],\"name\":\"getMarketEventName\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint80\",\"name\":\"marketEventId\",\"type\":\"uint80\"}],\"name\":\"getMarketEventNameVariables\",\"outputs\":[{\"components\":[{\"internalType\":\"string\",\"name\":\"format\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"text\",\"type\":\"string\"},{\"internalType\":\"int256\",\"name\":\"value\",\"type\":\"int256\"}],\"internalType\":\"struct LabelVariable[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getSupportedAssets\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getSupportedMetrics\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"metricId\",\"type\":\"uint8\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"}],\"internalType\":\"struct FuturesProviderSupportedMetric[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getLabel()\":{\"notice\":\"Provides a human friendly label describing on what this Future Provider enables speculating\"},\"getMarketEventName(uint80)\":{\"notice\":\"Provides a human friendly label for a Market Event  Always available: START_DATE, END_DATE\"},\"getMarketEventNameVariables(uint80)\":{\"notice\":\"Provides substitution variables for Uint256s for the Market Event label  The variables START_DATE and END_DATE are always available\"},\"getSupportedAssets()\":{\"notice\":\"Provides names of the supported assets\"},\"getSupportedMetrics()\":{\"notice\":\"Provides the available metrics and their names and integer IDs\"}},\"notice\":\"These methods are to provide information to the DApp about a particular Futures Provider\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/mieszkokycermann/Desktop/contract/interfaces/IFuturesProvider.sol\":\"IFuturesProvider\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/mieszkokycermann/Desktop/contract/interfaces/IFuturesProvider.sol\":{\"keccak256\":\"0x86b402ba8d1a791162c2c83bbeb12b1117dcb95fbd6776d64be1084173e71e74\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://a49bab01f7dd29b9aa3225aaef8b09574790066ee2cb7c13f58194c38eba1939\",\"dweb:/ipfs/Qme75ZKzusXuRMer9wqUGY3Bv2QhWkaDwKYct5LUNyrEow\"]}},\"version\":1}",
+    "bytecode": "",
+    "deployedBytecode": "",
+    "sourceMap": "",
+    "deployedSourceMap": "",
+    "sourcePath": "/Users/mieszkokycermann/Desktop/contract/interfaces/IFuturesProvider.sol",
+    "compiler": {
+        "name": "solc",
+        "version": "0.8.25+commit.b61c2a91"
+    },
+    "ast": {
+        "absolutePath": "/Users/mieszkokycermann/Desktop/contract/interfaces/IFuturesProvider.sol",
+        "exportedSymbols": {
+            "FuturesProviderSupportedMetric": [
+                6
+            ],
+            "IFuturesProvider": [
+                55
+            ],
+            "LabelVariable": [
+                14
+            ]
+        },
+        "id": 56,
+        "license": "UNLICENSED",
+        "nodeType": "SourceUnit",
+        "nodes": [
+            {
+                "id": 1,
+                "literals": [
+                    "solidity",
+                    "0.8",
+                    ".25"
+                ],
+                "nodeType": "PragmaDirective",
+                "src": "39:23:0"
+            },
+            {
+                "canonicalName": "FuturesProviderSupportedMetric",
+                "id": 6,
+                "members": [
+                    {
+                        "constant": false,
+                        "id": 3,
+                        "mutability": "mutable",
+                        "name": "metricId",
+                        "nameLocation": "112:8:0",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 6,
+                        "src": "106:14:0",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_uint8",
+                            "typeString": "uint8"
+                        },
+                        "typeName": {
+                            "id": 2,
+                            "name": "uint8",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "106:5:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_uint8",
+                                "typeString": "uint8"
+                            }
+                        },
+                        "visibility": "internal"
+                    },
+                    {
+                        "constant": false,
+                        "id": 5,
+                        "mutability": "mutable",
+                        "name": "name",
+                        "nameLocation": "131:4:0",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 6,
+                        "src": "124:11:0",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_string_storage_ptr",
+                            "typeString": "string"
+                        },
+                        "typeName": {
+                            "id": 4,
+                            "name": "string",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "124:6:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_string_storage_ptr",
+                                "typeString": "string"
+                            }
+                        },
+                        "visibility": "internal"
+                    }
+                ],
+                "name": "FuturesProviderSupportedMetric",
+                "nameLocation": "71:30:0",
+                "nodeType": "StructDefinition",
+                "scope": 56,
+                "src": "64:74:0",
+                "visibility": "public"
+            },
+            {
+                "canonicalName": "LabelVariable",
+                "documentation": {
+                    "id": 7,
+                    "nodeType": "StructuredDocumentation",
+                    "src": "140:190:0",
+                    "text": " This struct is used to provide substitutions.\n \n E.g. (format: \"usdc\", text: VALUE, value: 1230000)\n Would replace VALUE with $1.23\n \n Formats are hard coded in the DApp"
+                },
+                "id": 14,
+                "members": [
+                    {
+                        "constant": false,
+                        "id": 9,
+                        "mutability": "mutable",
+                        "name": "format",
+                        "nameLocation": "363:6:0",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 14,
+                        "src": "356:13:0",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_string_storage_ptr",
+                            "typeString": "string"
+                        },
+                        "typeName": {
+                            "id": 8,
+                            "name": "string",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "356:6:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_string_storage_ptr",
+                                "typeString": "string"
+                            }
+                        },
+                        "visibility": "internal"
+                    },
+                    {
+                        "constant": false,
+                        "id": 11,
+                        "mutability": "mutable",
+                        "name": "text",
+                        "nameLocation": "380:4:0",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 14,
+                        "src": "373:11:0",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_string_storage_ptr",
+                            "typeString": "string"
+                        },
+                        "typeName": {
+                            "id": 10,
+                            "name": "string",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "373:6:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_string_storage_ptr",
+                                "typeString": "string"
+                            }
+                        },
+                        "visibility": "internal"
+                    },
+                    {
+                        "constant": false,
+                        "id": 13,
+                        "mutability": "mutable",
+                        "name": "value",
+                        "nameLocation": "395:5:0",
+                        "nodeType": "VariableDeclaration",
+                        "scope": 14,
+                        "src": "388:12:0",
+                        "stateVariable": false,
+                        "storageLocation": "default",
+                        "typeDescriptions": {
+                            "typeIdentifier": "t_int256",
+                            "typeString": "int256"
+                        },
+                        "typeName": {
+                            "id": 12,
+                            "name": "int256",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "388:6:0",
+                            "typeDescriptions": {
+                                "typeIdentifier": "t_int256",
+                                "typeString": "int256"
+                            }
+                        },
+                        "visibility": "internal"
+                    }
+                ],
+                "name": "LabelVariable",
+                "nameLocation": "338:13:0",
+                "nodeType": "StructDefinition",
+                "scope": 56,
+                "src": "331:72:0",
+                "visibility": "public"
+            },
+            {
+                "abstract": false,
+                "baseContracts": [],
+                "canonicalName": "IFuturesProvider",
+                "contractDependencies": [],
+                "contractKind": "interface",
+                "documentation": {
+                    "id": 15,
+                    "nodeType": "StructuredDocumentation",
+                    "src": "405:99:0",
+                    "text": " These methods are to provide information to the DApp about a particular Futures Provider"
+                },
+                "fullyImplemented": false,
+                "id": 55,
+                "linearizedBaseContracts": [
+                    55
+                ],
+                "name": "IFuturesProvider",
+                "nameLocation": "515:16:0",
+                "nodeType": "ContractDefinition",
+                "nodes": [
+                    {
+                        "documentation": {
+                            "id": 16,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "536:106:0",
+                            "text": " Provides a human friendly label describing on what this Future Provider enables speculating"
+                        },
+                        "functionSelector": "9554c124",
+                        "id": 21,
+                        "implemented": false,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getLabel",
+                        "nameLocation": "654:8:0",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 17,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "662:2:0"
+                        },
+                        "returnParameters": {
+                            "id": 20,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 19,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 21,
+                                    "src": "688:13:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "memory",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_string_memory_ptr",
+                                        "typeString": "string"
+                                    },
+                                    "typeName": {
+                                        "id": 18,
+                                        "name": "string",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "688:6:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_string_storage_ptr",
+                                            "typeString": "string"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "687:15:0"
+                        },
+                        "scope": 55,
+                        "src": "645:58:0",
+                        "stateMutability": "view",
+                        "virtual": false,
+                        "visibility": "external"
+                    },
+                    {
+                        "documentation": {
+                            "id": 22,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "707:53:0",
+                            "text": " Provides names of the supported assets"
+                        },
+                        "functionSelector": "e5406dbf",
+                        "id": 28,
+                        "implemented": false,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getSupportedAssets",
+                        "nameLocation": "772:18:0",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 23,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "790:2:0"
+                        },
+                        "returnParameters": {
+                            "id": 27,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 26,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 28,
+                                    "src": "811:15:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "memory",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                                        "typeString": "string[]"
+                                    },
+                                    "typeName": {
+                                        "baseType": {
+                                            "id": 24,
+                                            "name": "string",
+                                            "nodeType": "ElementaryTypeName",
+                                            "src": "811:6:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_string_storage_ptr",
+                                                "typeString": "string"
+                                            }
+                                        },
+                                        "id": 25,
+                                        "nodeType": "ArrayTypeName",
+                                        "src": "811:8:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                                            "typeString": "string[]"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "810:17:0"
+                        },
+                        "scope": 55,
+                        "src": "763:65:0",
+                        "stateMutability": "nonpayable",
+                        "virtual": false,
+                        "visibility": "external"
+                    },
+                    {
+                        "documentation": {
+                            "id": 29,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "832:77:0",
+                            "text": " Provides the available metrics and their names and integer IDs"
+                        },
+                        "functionSelector": "236126b2",
+                        "id": 36,
+                        "implemented": false,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getSupportedMetrics",
+                        "nameLocation": "921:19:0",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 30,
+                            "nodeType": "ParameterList",
+                            "parameters": [],
+                            "src": "940:2:0"
+                        },
+                        "returnParameters": {
+                            "id": 35,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 34,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 36,
+                                    "src": "961:39:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "memory",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_array$_t_struct$_FuturesProviderSupportedMetric_$6_memory_ptr_$dyn_memory_ptr",
+                                        "typeString": "struct FuturesProviderSupportedMetric[]"
+                                    },
+                                    "typeName": {
+                                        "baseType": {
+                                            "id": 32,
+                                            "nodeType": "UserDefinedTypeName",
+                                            "pathNode": {
+                                                "id": 31,
+                                                "name": "FuturesProviderSupportedMetric",
+                                                "nameLocations": [
+                                                    "961:30:0"
+                                                ],
+                                                "nodeType": "IdentifierPath",
+                                                "referencedDeclaration": 6,
+                                                "src": "961:30:0"
+                                            },
+                                            "referencedDeclaration": 6,
+                                            "src": "961:30:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_struct$_FuturesProviderSupportedMetric_$6_storage_ptr",
+                                                "typeString": "struct FuturesProviderSupportedMetric"
+                                            }
+                                        },
+                                        "id": 33,
+                                        "nodeType": "ArrayTypeName",
+                                        "src": "961:32:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_array$_t_struct$_FuturesProviderSupportedMetric_$6_storage_$dyn_storage_ptr",
+                                            "typeString": "struct FuturesProviderSupportedMetric[]"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "960:41:0"
+                        },
+                        "scope": 55,
+                        "src": "912:90:0",
+                        "stateMutability": "nonpayable",
+                        "virtual": false,
+                        "visibility": "external"
+                    },
+                    {
+                        "documentation": {
+                            "id": 37,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "1006:114:0",
+                            "text": " Provides a human friendly label for a Market Event\n \n Always available: START_DATE, END_DATE"
+                        },
+                        "functionSelector": "af33a17b",
+                        "id": 44,
+                        "implemented": false,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getMarketEventName",
+                        "nameLocation": "1132:18:0",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 40,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 39,
+                                    "mutability": "mutable",
+                                    "name": "marketEventId",
+                                    "nameLocation": "1158:13:0",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 44,
+                                    "src": "1151:20:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint80",
+                                        "typeString": "uint80"
+                                    },
+                                    "typeName": {
+                                        "id": 38,
+                                        "name": "uint80",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1151:6:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint80",
+                                            "typeString": "uint80"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "1150:22:0"
+                        },
+                        "returnParameters": {
+                            "id": 43,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 42,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 44,
+                                    "src": "1196:13:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "memory",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_string_memory_ptr",
+                                        "typeString": "string"
+                                    },
+                                    "typeName": {
+                                        "id": 41,
+                                        "name": "string",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1196:6:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_string_storage_ptr",
+                                            "typeString": "string"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "1195:15:0"
+                        },
+                        "scope": 55,
+                        "src": "1123:88:0",
+                        "stateMutability": "view",
+                        "virtual": false,
+                        "visibility": "external"
+                    },
+                    {
+                        "documentation": {
+                            "id": 45,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "1215:156:0",
+                            "text": " Provides substitution variables for Uint256s for the Market Event label\n \n The variables START_DATE and END_DATE are always available"
+                        },
+                        "functionSelector": "c6ebd392",
+                        "id": 54,
+                        "implemented": false,
+                        "kind": "function",
+                        "modifiers": [],
+                        "name": "getMarketEventNameVariables",
+                        "nameLocation": "1383:27:0",
+                        "nodeType": "FunctionDefinition",
+                        "parameters": {
+                            "id": 48,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 47,
+                                    "mutability": "mutable",
+                                    "name": "marketEventId",
+                                    "nameLocation": "1418:13:0",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 54,
+                                    "src": "1411:20:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint80",
+                                        "typeString": "uint80"
+                                    },
+                                    "typeName": {
+                                        "id": 46,
+                                        "name": "uint80",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "1411:6:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint80",
+                                            "typeString": "uint80"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "1410:22:0"
+                        },
+                        "returnParameters": {
+                            "id": 53,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 52,
+                                    "mutability": "mutable",
+                                    "name": "",
+                                    "nameLocation": "-1:-1:-1",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 54,
+                                    "src": "1456:22:0",
+                                    "stateVariable": false,
+                                    "storageLocation": "memory",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_array$_t_struct$_LabelVariable_$14_memory_ptr_$dyn_memory_ptr",
+                                        "typeString": "struct LabelVariable[]"
+                                    },
+                                    "typeName": {
+                                        "baseType": {
+                                            "id": 50,
+                                            "nodeType": "UserDefinedTypeName",
+                                            "pathNode": {
+                                                "id": 49,
+                                                "name": "LabelVariable",
+                                                "nameLocations": [
+                                                    "1456:13:0"
+                                                ],
+                                                "nodeType": "IdentifierPath",
+                                                "referencedDeclaration": 14,
+                                                "src": "1456:13:0"
+                                            },
+                                            "referencedDeclaration": 14,
+                                            "src": "1456:13:0",
+                                            "typeDescriptions": {
+                                                "typeIdentifier": "t_struct$_LabelVariable_$14_storage_ptr",
+                                                "typeString": "struct LabelVariable"
+                                            }
+                                        },
+                                        "id": 51,
+                                        "nodeType": "ArrayTypeName",
+                                        "src": "1456:15:0",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_array$_t_struct$_LabelVariable_$14_storage_$dyn_storage_ptr",
+                                            "typeString": "struct LabelVariable[]"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "1455:24:0"
+                        },
+                        "scope": 55,
+                        "src": "1374:106:0",
+                        "stateMutability": "view",
+                        "virtual": false,
+                        "visibility": "external"
+                    }
+                ],
+                "scope": 56,
+                "src": "505:977:0",
+                "usedErrors": [],
+                "usedEvents": []
+            }
+        ],
+        "src": "39:1443:0"
+    },
+    "functionHashes": {
+        "getLabel()": "9554c124",
+        "getMarketEventName(uint80)": "af33a17b",
+        "getMarketEventNameVariables(uint80)": "c6ebd392",
+        "getSupportedAssets()": "e5406dbf",
+        "getSupportedMetrics()": "236126b2"
+    },
+    "gasEstimates": null
+}
