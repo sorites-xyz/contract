@@ -36,7 +36,11 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
 
   //// Futures Contract Interface
   mapping(address => bool) private futuresContractAddressWhitelist;
-  address[] public futuresContractWhitelistAddresses;
+  address[] private futuresContractWhitelistAddresses;
+
+  function getFuturesContractWhitelistAddresses() public view returns (address[] memory) {
+    return futuresContractWhitelistAddresses;
+  }
 
   // Authorise a Futures Contract to create and resolve Market Events
   function addFuturesContract(address futuresAddress) public onlyOwner {
