@@ -16,11 +16,11 @@ const signer = new Wallet(process.env.PRIVATE_KEY!, provider);
 
 console.log("Wallet address:", signer.address);
 
-let nonce = 103;
+let nonce = 123;
 
 async function deployContract(name: string, constructorArgs: any[]) {
-  const contractAbi = readFileSync(`./bin/contracts/${name}.abi`, "utf8");
-  const contractByteCode = readFileSync(`./bin/contracts/${name}.bin`, "utf8");
+  const contractAbi = readFileSync(`./bin/${name}.abi`, "utf8");
+  const contractByteCode = readFileSync(`./bin/${name}.bin`, "utf8");
   const factory = new ContractFactory(contractAbi, contractByteCode, signer);
 
   const overrides = {

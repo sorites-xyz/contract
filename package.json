@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "deploy": "node --import=tsx ./scripts/deploy.ts"
+    "compile": "rm -rf ./bin && solc --optimize --optimize-runs 1000000 --via-ir --metadata --abi --bin --overwrite -o ./bin --allow-paths node_modules ./contracts/Sorites.sol && solc --optimize --optimize-runs 1000000 --via-ir --metadata --abi --bin --overwrite -o ./bin --allow-paths node_modules ./contracts/PriceFutures.sol",
+    "deploy": "npm run compile && node --import=tsx ./scripts/deploy.ts"
   },
   "dependencies": {
     "@chainlink/contracts": "^1.2.0",

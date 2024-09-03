@@ -1,4 +1,7 @@
 node_modules
 .deploys
 .deps
-contracts/artifacts
+/bin/*
+!/bin/Sorites*
+!/bin/IFuturesProvider*
+!/bin/IFuturesConsumer*
