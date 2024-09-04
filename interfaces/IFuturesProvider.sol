@@ -33,12 +33,12 @@ interface IFuturesProvider {
   /**
    * Provides names of the supported assets
    */
-  function getSupportedAssets() external returns (string[] memory);
+  function getSupportedAssets() external view returns (string[] memory);
 
   /**
    * Provides the available metrics and their names and integer IDs
    */
-  function getSupportedMetrics() external returns (SupportedMetric[] memory);
+  function getSupportedMetrics() external view returns (SupportedMetric[] memory);
 
   /**
    * Creates a new Market Event, returning the Market Event ID
