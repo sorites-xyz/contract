@@ -143,8 +143,8 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
   }
 
   function getSupportedMetrics() public pure returns (SupportedMetric[] memory) {
-    SupportedMetric[] memory supportedMetricsValues;
-    string[] memory valueLabels;
+    SupportedMetric[] memory supportedMetricsValues = new SupportedMetric[](2);
+    string[] memory valueLabels = new string[](1);
 
     valueLabels[0] = "USDC";
 
@@ -169,7 +169,7 @@ contract SoritesPriceFuturesProvider is ConfirmedOwner, IFuturesProvider {
     Future storage future = futures[marketEventId];
     require(future.exists, "Bad marketEventId");
 
-    LabelVariable[] memory variables;
+    LabelVariable[] memory variables = new LabelVariable[](2);
 
     variables[0] = LabelVariable("string", "ASSET", 0);
     variables[1] = LabelVariable("usdc", "VALUE", int256(uint256(future.value)));
