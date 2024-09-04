@@ -16,7 +16,7 @@ const signer = new Wallet(process.env.PRIVATE_KEY!, provider);
 
 console.log("Wallet address:", signer.address);
 
-let nonce = 143;
+let nonce = 153;
 
 async function deployContract(name: string, constructorArgs: any[]) {
   const contractAbi = readFileSync(`./bin/${name}.abi`, "utf8");
