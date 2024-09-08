@@ -6,7 +6,7 @@ if (!process.env.PRIVATE_KEY) {
   process.exit(1);
 }
 
-const test = true;
+const test = false;
 
 const provider = getDefaultProvider(
   test ? "https://sepolia.base.org" : "https://mainnet.base.org"
@@ -16,7 +16,7 @@ const signer = new Wallet(process.env.PRIVATE_KEY!, provider);
 
 console.log("Wallet address:", signer.address);
 
-let nonce = 153;
+let nonce = 49;
 
 async function deployContract(name: string, constructorArgs: any[]) {
   const contractAbi = readFileSync(`./bin/${name}.abi`, "utf8");

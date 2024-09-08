@@ -206,9 +206,15 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     marketEvent.status = outcomeWasMet ? MarketEventStatus.YesWon : MarketEventStatus.NoWon;
   }
 
+  uint80 public minimumUsdcToDeposit = 0;
+
+  function setMinimumUsdcToDeposit(uint80 usdc) public onlyOwner {
+    minimumUsdcToDeposit = usdc;
+  }
+
   function createMarketEvent(address minter, uint64 endTime, uint80 usdcToDeposit, bool tokenTypeYes) external returns (uint80) {
     // Require minimum deposit to create a marketEvent
-    require(usdcToDeposit >= 25 * 10e6, "Not enough USDC");
+    require(usdcToDeposit >= minimumUsdcToDeposit, "Not enough USDC");
 
     // Prevent marketEvents from ending in the past
     require(endTime >= block.timestamp, "Cannot end in past");
