@@ -35,40 +35,40 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
   }
 
   //// Futures Contract Interface
-  mapping(address => bool) private futuresContractAddressWhitelist;
-  address[] private futuresContractWhitelistAddresses;
+  mapping(address => bool) private futuresContractWhitelistAddressMapping;
+  address[] private futuresContractWhitelistAddressList;
 
   function getFuturesContractWhitelistAddresses() public view returns (address[] memory) {
-    return futuresContractWhitelistAddresses;
+    return futuresContractWhitelistAddressList;
   }
 
   // Authorise a Futures Contract to create and resolve Market Events
   function addFuturesContract(address futuresAddress) public onlyOwner {
-    require(!futuresContractAddressWhitelist[futuresAddress], "Exists");
-    futuresContractAddressWhitelist[futuresAddress] = true;
-    futuresContractWhitelistAddresses.push(futuresAddress);
+    require(!futuresContractWhitelistAddressMapping[futuresAddress], "Exists");
+    futuresContractWhitelistAddressMapping[futuresAddress] = true;
+    futuresContractWhitelistAddressList.push(futuresAddress);
   }
 
   // Stop people from using a Futures Contract for new Market Events
   // Existing Market Events will still have the contract
   function removeFuturesContract(address futuresAddress) public onlyOwner {
-    require(futuresContractAddressWhitelist[futuresAddress], "Missing");
-    delete futuresContractAddressWhitelist[futuresAddress];
+    require(futuresContractWhitelistAddressMapping[futuresAddress], "Missing");
+    delete futuresContractWhitelistAddressMapping[futuresAddress];
     
-    // Find index in futuresContractWhitelistAddresses
+    // Find index in futuresContractWhitelistAddressList
     uint256 index;
-    for (uint256 i = 0; i < futuresContractWhitelistAddresses.length; i++) {
-      if (futuresContractWhitelistAddresses[i] == futuresAddress) {
+    for (uint256 i = 0; i < futuresContractWhitelistAddressList.length; i++) {
+      if (futuresContractWhitelistAddressList[i] == futuresAddress) {
         index = i;
         break;
       }
     }
 
     // Swap with last element
-    futuresContractWhitelistAddresses[index] = futuresContractWhitelistAddresses[futuresContractWhitelistAddresses.length - 1];
+    futuresContractWhitelistAddressList[index] = futuresContractWhitelistAddressList[futuresContractWhitelistAddressList.length - 1];
 
     // Remove last element
-    futuresContractWhitelistAddresses.pop();
+    futuresContractWhitelistAddressList.pop();
   }
 
   //// Market Events
@@ -220,7 +220,7 @@ contract Sorites is ERC1155, Ownable, IFuturesConsumer {
     require(endTime >= block.timestamp, "Cannot end in past");
 
     // Only allow whitelisted Futures Contracts
-    require(futuresContractAddressWhitelist[msg.sender], "Not whitelisted");
+    require(futuresContractWhitelistAddressMapping[msg.sender], "Not whitelisted");
 
     uint80 marketEventId = nextMarketEventId;
     ++nextMarketEventId;
